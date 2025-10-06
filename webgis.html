@@ -1,0 +1,134 @@
+ <!-- Section Dashboard GIS -->
+  <section id="dashboard-gis">
+    <div class="wrapper">
+      <h2>Dimana Lokasi Studio Peta?</h2>
+      <p>Lihat peta interaktif Simpul Jaringan Kota Malang</p>
+      <p>Dashboard GIS</p>
+      <div id="map"></div>
+    </div>
+  </section>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
+
+  <!-- Plugin Import Layer -->
+  <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/makinacorpus/Leaflet.FileLayer/leaflet.filelayer.js"></script>
+
+  <script>
+    // Inisialisasi peta
+    var map = L.map("map", {
+      center: [-7.978890139357309, 112.63334134716487],
+      zoom: 13,
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: "topright",
+        title: "Layar Penuh",
+        titleCancel: "Keluar Fullscreen"
+      }
+    });
+
+    // ====== Base map ======
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+
+    var esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri',
+      maxZoom: 20
+    });
+
+    var baseMaps = {
+      "OpenStreetMap": osm,
+      "Carto Light": cartoLight,
+      "ESRI Satelit": esriSat
+    };
+
+    // ====== Group untuk layer tambahan ======
+    var uploadedLayers = L.featureGroup().addTo(map);
+    var geojsonLayer = L.layerGroup();
+
+    // Marker lokasi Studio Peta
+    var marker = L.marker([-7.978890139357309, 112.63334134716487])
+      .bindPopup("<b>Studio Peta</b><br>Kota Malang.")
+      .addTo(map);
+
+// ====== Definisi layer ======
+var geojsonLayer = L.featureGroup().addTo(map);
+var uploadedLayers = L.featureGroup().addTo(map);
+
+// ====== Import layer bawaan GeoJSON ======
+fetch("data/data.geojson")
+  .then(response => response.json())
+  .then(data => {
+    var gj = L.geoJSON(data, {
+      style: { color: "blue", weight: 2, fillOpacity: 0.3 },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties) {
+          let popupContent = "";
+          for (let key in feature.properties) {
+            popupContent += "<b>" + key + ":</b> " + feature.properties[key] + "<br>";
+          }
+          layer.bindPopup(popupContent);
+        }
+      }
+    });
+    geojsonLayer.addLayer(gj);
+    map.fitBounds(geojsonLayer.getBounds());
+  })
+  .catch(err => console.error("Gagal load GeoJSON:", err));
+
+// ====== Layer Control ======
+var overlayMaps = {
+  "Marker Studio Peta": marker,  // pastikan marker sudah didefinisikan
+  "Layer GeoJSON": geojsonLayer,
+  "Layer Upload": uploadedLayers
+};
+
+var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+// ====== Upload SHP/GeoJSON interaktif ======
+var fileLoader = L.Control.fileLayerLoad({
+  fitBounds: true,
+  layerOptions: { style: { color: 'green', weight: 2, fillOpacity: 0.4 } }
+}).addTo(map);
+
+fileLoader.loader.on('data:loaded', function (e) {
+  // Tambahkan layer ke FeatureGroup
+  uploadedLayers.addLayer(e.layer);
+
+  // Tambahkan popup otomatis jika ada properti
+  if (e.layer.eachLayer) {
+    e.layer.eachLayer(function (layer) {
+      if (layer.feature && layer.feature.properties) {
+        let popupContent = "";
+        for (let key in layer.feature.properties) {
+          popupContent += "<b>" + key + ":</b> " + layer.feature.properties[key] + "<br>";
+        }
+        layer.bindPopup(popupContent);
+      }
+    });
+  }
+  // Zoom ke layer
+  map.fitBounds(e.layer.getBounds());
+
+  // Tambahkan ke layer control
+  layerControl.addOverlay(e.layer, "Layer Upload (" + (e.filename || "file") + ")");
+});
+
+    // ====== Event biar layer tetap ada setelah fullscreen toggle ======
+    map.on('enterFullscreen exitFullscreen', function () {
+      uploadedLayers.addTo(map);
+      geojsonLayer.addTo(map);
+    });
+  </script>
+</body>
+</html>

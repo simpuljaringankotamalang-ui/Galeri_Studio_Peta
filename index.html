@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeri Studio Peta</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.css"/>
+
+  <style>
+    #map {
+      height: 500px;
+    }
+
+    /* Style tombol upload layer */
+    .leaflet-control-filelayer {
+      background: #28a745;
+      color: #fff;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: 0.3s;
+    }
+
+    .leaflet-control-filelayer:hover {
+      background: #ff9800;
+      color: #fff;
+    }
+
+    /* Style tombol fullscreen */
+    .leaflet-control-fullscreen a {
+      background-color: #333 !important;
+      color: white !important;
+      border-radius: 6px;
+    }
+
+    .leaflet-control-fullscreen a:hover {
+      background-color: #ff9800 !important;
+      color: #fff !important;
+    }
+  </style>
+</head>
+<body>
+  <!--menu-->
+  <nav>
+    <div class="wrapper">
+      <div class="logo">
+        <img src="image/Logo Depan.png" alt="Logo">
+      </div>
+      <div class="menu">
+        <ul>
+          <li><a href="https://sigema.asvel.id/">Si Gema</a></li>
+          <li><a href="http://172.16.0.106">GeoNode</a></li>
+          <li><a href="https://studiopetamalang.maps.arcgis.com/home/index.html">ArcGIS Online</a></li>
+          <li><a href="https://www.instagram.com/simpuljaringan.malangkota?utm_source=ig_web_button_share_sheet&igsh=djZkdTZoMTluNDQ1">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- hero / jumbotron -->
+  <header>
+  <video autoplay muted loop playsinline>
+    <source src="vidio/Kota Malang.mp4" type="video/mp4">
+    Browser kamu tidak mendukung video background.
+  </video>
+  
+  <div class="header-opacity"></div>
+  <div class="header-jumbotron">
+    <h4>Simpul Jaringan Kota Malang</h4>
+    <h5>Galeri Studio Peta</h5>
+    <p>#Kota Malang Berbasis Spasial#</p>
+    <a href="webgis.html" target="_blank" style="color:white; text-decoration:none;" class="button button-xl">Let's Go</a>
+  </div>
+</header>
+
+<script>
+  // atur kecepatan video
+  var vid = document.getElementById("bg-video");
+  vid.playbackRate = 0.7; // 1.0 = normal, <1 = lebih lambat, >1 = lebih cepat
+</script>
+
+
+  <!-- Section Statistik --> 
+  <section id="statistic"> 
+    <div class="wrapper"> 
+      <div><a href="peta.html"><p><i class="fa-solid fa-location-dot"></i></p><small>Peta</small></a></div> 
+      <div><a href="dokumentasi.html"><p><i class="fa-solid fa-image"></i></p><small>Dokumentasi</small></a></div> 
+      <div><a href="jadwal.html"><p><i class="fa-solid fa-calendar-days"></i></p><small>Jadwal Kegiatan</small></a></div>
+    </div>
+  </section>
+  
+  <!-- Section Dashboard GIS -->
+  <section id="dashboard-gis">
+    <div class="wrapper">
+      <h2>Dimana Lokasi Studio Peta?</h2>
+      <p>Lihat peta interaktif Simpul Jaringan Kota Malang</p>
+      <p>Dashboard GIS</p>
+      <div id="map"></div>
+    </div>
+  </section>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.fullscreen/1.6.0/Control.FullScreen.min.js"></script>
+
+  <!-- Plugin Import Layer -->
+  <script src="https://unpkg.com/shpjs@latest/dist/shp.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/makinacorpus/Leaflet.FileLayer/leaflet.filelayer.js"></script>
+
+  <script>
+    // Inisialisasi peta
+    var map = L.map("map", {
+      center: [-7.978890139357309, 112.63334134716487],
+      zoom: 13,
+      fullscreenControl: true,
+      fullscreenControlOptions: {
+        position: "topright",
+        title: "Layar Penuh",
+        titleCancel: "Keluar Fullscreen"
+      }
+    });
+
+    // ====== Base map ======
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '© OpenStreetMap'
+    }).addTo(map);
+
+    var cartoLight = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO',
+      subdomains: 'abcd',
+      maxZoom: 20
+    });
+
+    var esriSat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      attribution: 'Tiles © Esri',
+      maxZoom: 20
+    });
+
+    var baseMaps = {
+      "OpenStreetMap": osm,
+      "Carto Light": cartoLight,
+      "ESRI Satelit": esriSat
+    };
+
+    // ====== Group untuk layer tambahan ======
+    var uploadedLayers = L.featureGroup().addTo(map);
+    var geojsonLayer = L.layerGroup();
+
+    // Marker lokasi Studio Peta
+    var marker = L.marker([-7.978890139357309, 112.63334134716487])
+      .bindPopup("<b>Studio Peta</b><br>Kota Malang.")
+      .addTo(map);
+
+// ====== Definisi layer ======
+var geojsonLayer = L.featureGroup().addTo(map);
+var uploadedLayers = L.featureGroup().addTo(map);
+
+// ====== Import layer bawaan GeoJSON ======
+fetch("data/data.geojson")
+  .then(response => response.json())
+  .then(data => {
+    var gj = L.geoJSON(data, {
+      style: { color: "blue", weight: 2, fillOpacity: 0.3 },
+      onEachFeature: function (feature, layer) {
+        if (feature.properties) {
+          let popupContent = "";
+          for (let key in feature.properties) {
+            popupContent += "<b>" + key + ":</b> " + feature.properties[key] + "<br>";
+          }
+          layer.bindPopup(popupContent);
+        }
+      }
+    });
+    geojsonLayer.addLayer(gj);
+    map.fitBounds(geojsonLayer.getBounds());
+  })
+  .catch(err => console.error("Gagal load GeoJSON:", err));
+
+// ====== Layer Control ======
+var overlayMaps = {
+  "Marker Studio Peta": marker,  // pastikan marker sudah didefinisikan
+  "Layer GeoJSON": geojsonLayer,
+  "Layer Upload": uploadedLayers
+};
+
+var layerControl = L.control.layers(baseMaps, overlayMaps).addTo(map);
+
+// ====== Upload SHP/GeoJSON interaktif ======
+var fileLoader = L.Control.fileLayerLoad({
+  fitBounds: true,
+  layerOptions: { style: { color: 'green', weight: 2, fillOpacity: 0.4 } }
+}).addTo(map);
+
+fileLoader.loader.on('data:loaded', function (e) {
+  // Tambahkan layer ke FeatureGroup
+  uploadedLayers.addLayer(e.layer);
+
+  // Tambahkan popup otomatis jika ada properti
+  if (e.layer.eachLayer) {
+    e.layer.eachLayer(function (layer) {
+      if (layer.feature && layer.feature.properties) {
+        let popupContent = "";
+        for (let key in layer.feature.properties) {
+          popupContent += "<b>" + key + ":</b> " + layer.feature.properties[key] + "<br>";
+        }
+        layer.bindPopup(popupContent);
+      }
+    });
+  }
+  // Zoom ke layer
+  map.fitBounds(e.layer.getBounds());
+
+  // Tambahkan ke layer control
+  layerControl.addOverlay(e.layer, "Layer Upload (" + (e.filename || "file") + ")");
+});
+
+    // ====== Event biar layer tetap ada setelah fullscreen toggle ======
+    map.on('enterFullscreen exitFullscreen', function () {
+      uploadedLayers.addTo(map);
+      geojsonLayer.addTo(map);
+    });
+  </script>
+</body>
+</html>

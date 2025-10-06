@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Jadwal Kegiatan</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; margin:0; padding:20px; }
+    h1 { color:#2f3b52; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #2f3b52;
+      color: white;
+    }
+
+    /* Tombol Home pojok kanan atas */
+    .btn-home {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #2563eb;
+      color: white;
+      width: 55px; 
+      height: 55px;
+      border-radius: 50%;
+      font-size: 24px;
+      text-decoration: none;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transition: all 0.3s ease;
+      z-index: 1000;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      line-height: 1;   /* reset font bawaan */
+    }
+    .btn-home i {
+      margin: 0;
+      padding: 0;
+      line-height: 1;
+      display: block;
+    }
+    .btn-home:hover {
+      background: #1e40af;
+      transform: scale(1.1);
+    }
+
+  </style>
+</head>
+<body>
+  <h1><i class="fa-solid fa-calendar-days"></i> Jadwal Kegiatan</h1>
+  <table>
+    <tr>
+      <th>Tanggal</th>
+      <th>Kegiatan</th>
+      <th>Tempat</th>
+    </tr>
+    <tr>
+      <td>01-10-2025</td>
+      <td>Rapat Koordinasi</td>
+      <td>Balai Desa</td>
+    </tr>
+    <tr>
+      <td>05-10-2025</td>
+      <td>Gotong Royong</td>
+      <td>Lingkungan RW 02</td>
+    </tr>
+    <tr>
+      <td>10-10-2025</td>
+      <td>Pelatihan Kebencanaan</td>
+      <td>Gedung Serbaguna</td>
+    </tr>
+  </table>
+  <!-- Tombol Home -->
+  <a href="index.html" class="btn-home">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="22" height="22" fill="white">
+    <path d="M280.4 148.3L96 300.1V464c0 8.8 7.2 16 16 16l112-.3c8.8 0 16-7.2 16-16V368c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16v95.7c0 8.8 7.2 16 16 16l112 .3c8.8 0 16-7.2 16-16V300L295.6 148.3c-6-4.8-14.7-4.8-21.2 0zM571.6 251.5L488 182.6V44c0-6.6-5.4-12-12-12h-56c-6.6 0-12 5.4-12 12v72.6L318.5 43c-35.7-28.6-86.8-28.6-122.5 0L4.3 251.5c-5.1 4.1-5.8 11.6-1.6 16.7l25.5 31.3c4.1 5.1 11.6 5.8 16.7 1.6L280.4 92.5c6-4.8 14.7-4.8 21.2 0l235.5 208.6c5.1 4.1 12.6 3.5 16.7-1.6l25.5-31.3c4.2-5.2 3.5-12.7-1.7-16.7z"/>
+  </svg></a>
+</body>
+</html>

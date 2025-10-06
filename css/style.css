@@ -1,0 +1,259 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&display=swap');
+
+html, 
+body {
+    margin: 0px;
+    padding: 0px;
+    font-size: 16px;
+    font-family: "Nunito Sans", sans-serif;
+    height: 100%;
+}
+
+/* wrapper */
+.wrapper {
+    width: 1024px;
+    margin: auto;
+    padding: 20px 0;
+}
+
+/*
+* Menu
+*/
+nav {
+    background-color: #000B58;
+    color: #fff;
+    padding: 0px;
+    position: sticky;
+    height: fit-content;
+    top: 0;
+    z-index: 100;
+    width: 100%;
+}
+nav > .wrapper {
+    display:flex;
+    justify-content:space-between;
+    font-size: 1.2rem;
+    align-items: center;
+    padding: 0px 0px;
+    box-sizing: border-box;
+}
+
+nav .logo img {
+  height: 100px; /* atur sesuai kebutuhan */
+  margin-left: 10px;
+  display: block;
+}
+
+.menu {
+    width: 50%;
+    border: none;
+}
+.menu > ul {
+    display: flex;
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    justify-content: space-between;
+}
+.menu > ul > li > a {
+    text-decoration: none;
+    color: #fff;
+}
+.logo {
+    display: flex;
+    align-items: center;
+}
+.logo > img {
+    height: 90px;
+}
+
+/*
+* Hero / Jumbotron pakai video
+*/
+header {
+    height: 100vh;
+    position: relative;
+    font-family: "Love Ya Like A Sister", cursive;
+    letter-spacing: 5px;
+    text-shadow: 0 0 4px #000000;
+    overflow: hidden;
+}
+
+/* video background */
+header video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* layer hitam transparan */
+.header-opacity {
+    background-color: #000000;
+    width: 100%;
+    height: 100%;
+    opacity: 0.4;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.header-jumbotron {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.header-jumbotron > h4 {
+    color: #80CBEF;
+    font-size: 5rem;
+    margin: 0;
+    padding: 0;
+    font-family: "Nunito Sans", sans-serif;
+}
+.header-jumbotron > h5 {
+    color: #fff;
+    margin: 0px;
+    padding: 5px;
+    font-size: 4rem;
+    line-height: 4rem;
+}
+.header-jumbotron > p {
+    font-size: 3rem;
+    padding: 4px;
+    margin: 0;
+    color: #e2ff3b;
+}
+
+a {
+    text-decoration: none;
+    color: #0004ff;
+    text-shadow: none;
+}
+
+.button {
+    background-color: #616164;
+    padding: 5px 10px 5px 10px;
+    border-radius: 5px;
+    font-family: "Nunito Sans", sans-serif;
+    opacity: 0.9;
+}
+.button-xl {
+    font-size: 1.4rem;
+    padding: 20px;
+    font-family: "Love Ya Like A Sister", cursive;
+}
+
+/* Section Statistik */
+#statistic {
+    background-color: #364152;
+    color: #fff;
+    font-family: "Nunito Sans", sans-serif;
+    font-size: 1.5rem;
+    padding: 40px 0;
+}
+#statistic > .wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 40px;
+}
+#statistic .wrapper div {
+    text-align: center;
+}
+#statistic .wrapper a {
+    display: block;
+    text-decoration: none;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    transition: 0.3s;
+}
+#statistic .wrapper a:hover {
+    background: #4a5a73;
+    transform: scale(1.05);
+}
+#statistic i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    display: block;
+}
+#statistic small {
+    font-size: 1.2rem;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Map */
+#map {
+  height: 500px;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+#dashboard-gis {
+  padding: 50px 20px;
+  background: #f8f9fa;
+  text-align: center;
+}
+
+/* Tombol upload layer */
+#leaflet-control-filelayer {
+    background: #28a745;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 6px;
+    padding: 4px 8px;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    transition: 0.3s;
+}
+#leaflet-control-filelayer:hover {
+    background: #ff9800;
+    color: #fff;
+}
+
+/* Tombol fullscreen */
+#leaflet-control-fullscreen a {
+    background-color: #333 !important;
+    color: white !important;
+    border-radius: 6px;
+}
+#leaflet-control-fullscreen a:hover {
+    background-color: #ff9800 !important;
+    color: #fff !important;
+}
+
+/* Card list peta */
+#map-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+#map-card {
+  background: #f0f0f0;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+#map-card img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
