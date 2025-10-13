@@ -12,7 +12,7 @@ body {
 .game-background {
   position: fixed;
   inset: 0;
-  background: url("public/04_Kampung Warna.jpg") center/cover no-repeat;
+  background: url("/04_Kampung Warna.jpg") center/cover no-repeat;
   z-index: 0;
   pointer-events: none;
 }
