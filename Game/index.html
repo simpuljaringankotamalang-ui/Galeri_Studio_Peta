@@ -1,18 +1,33 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mini Game Studio Peta</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tebak Kelurahan Kota Malang ⚔️</title>
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 <body>
-  <div class="game-container">
-    <h1>🎮 Tebak Lokasi di Kota Malang</h1>
-    <p>Klik tombol di bawah untuk menebak lokasi acak!</p>
+  <div class="game-background"></div>
 
-    <button id="playBtn">Main Sekarang</button>
-    <div id="result"></div>
+  <div class="game-container">
+    <header class="header">
+      <div id="progress-text">0 / 57 (0%)</div>
+      <div id="question">🗺️ Klik pada kelurahan...</div>
+      <div id="timer">00:00</div>
+    </header>
+
+    <main class="map-frame">
+      <div id="map"></div>
+    </main>
+
+    <footer class="footer">
+      <button id="reset">Ulangi 🔁</button>
+      <button id="start-pause">Mulai ▶️</button>
+      <button id="next">Lewati😭💔</button>
+    </footer>
   </div>
 
   <script src="script.js"></script>

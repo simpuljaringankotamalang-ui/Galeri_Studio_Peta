@@ -156,7 +156,7 @@ a {
     font-family: "Love Ya Like A Sister", cursive;
 }
 
-/* Section Statistik */
+/*Section Statistik */
 #statistic {
     background-color: #364152;
     color: #fff;
@@ -208,7 +208,7 @@ a {
   text-align: center;
 }
 
-/* Tombol upload layer */
+/*Tombol upload layer*/
 #leaflet-control-filelayer {
     background: #28a745;
     color: #fff;
@@ -225,7 +225,7 @@ a {
     color: #fff;
 }
 
-/* Tombol fullscreen */
+/*Tombol fullscreen */
 #leaflet-control-fullscreen a {
     background-color: #333 !important;
     color: white !important;
@@ -236,7 +236,7 @@ a {
     color: #fff !important;
 }
 
-/* Card list peta */
+/*Card list peta */
 #map-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

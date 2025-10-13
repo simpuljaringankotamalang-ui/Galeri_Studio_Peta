@@ -77,7 +77,7 @@
     <h4>Simpul Jaringan Kota Malang</h4>
     <h5>Galeri Studio Peta</h5>
     <p>#Kota Malang Berbasis Spasial#</p>
-    <a href="/Game/index.html" target="_blank" style="color:white; text-decoration:none;" class="button button-xl">Let's Go 🎮</a>
+    <a href="/Game/index.html" target="_blank" style="color:white; text-decoration:none;" class="button button-xl">Let's Play 🎮</a>
   </div>
 </header>
 
@@ -86,7 +86,6 @@
   var vid = document.getElementById("bg-video");
   vid.playbackRate = 0.7; // 1.0 = normal, <1 = lebih lambat, >1 = lebih cepat
 </script>
-
 
   <!-- Section Statistik --> 
   <section id="statistic"> 
@@ -187,7 +186,7 @@ fetch("data/data.geojson")
 
 // ====== Layer Control ======
 var overlayMaps = {
-  "Marker Studio Peta": marker,  // pastikan marker sudah didefinisikan
+  "Marker Studio Peta": marker,
   "Layer GeoJSON": geojsonLayer,
   "Layer Upload": uploadedLayers
 };
@@ -204,7 +203,7 @@ fileLoader.loader.on('data:loaded', function (e) {
   // Tambahkan layer ke FeatureGroup
   uploadedLayers.addLayer(e.layer);
 
-  // Tambahkan popup otomatis jika ada properti
+  //popup otomatis 
   if (e.layer.eachLayer) {
     e.layer.eachLayer(function (layer) {
       if (layer.feature && layer.feature.properties) {
