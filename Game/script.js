@@ -160,7 +160,7 @@ resetBtn.addEventListener("click", () => location.reload());
 updateTimer();
 
 //Data GeoJSON
-fetch("/Kelurahan.geojson")
+fetch("public/Kelurahan.geojson")
   .then(res => res.json())
   .then(data => {
     geojsonLayer = L.geoJSON(data, {
