@@ -257,3 +257,122 @@ a {
   display: block;
 }
 
+/* === Rating Stars === */
+.rating {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 15px;
+}
+
+.star {
+  font-size: 30px;
+  color: #dfe6e9;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.star.active {
+  color: #fdcb6e;
+  transform: scale(1.2);
+}
+
+/* ============================= */
+/* 📱 RESPONSIVE DESIGN SETTING  */
+/* ============================= */
+
+/* Tablet & HP landscape */
+@media (max-width: 1024px) {
+  .wrapper {
+    width: 90%;
+    padding: 10px 0;
+  }
+
+  nav .logo img {
+    height: 70px;
+  }
+
+  .menu {
+    width: 100%;
+  }
+
+  .menu > ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .header-jumbotron > h4 {
+    font-size: 3rem;
+  }
+  .header-jumbotron > h5 {
+    font-size: 2.5rem;
+    line-height: 2.8rem;
+  }
+  .header-jumbotron > p {
+    font-size: 1.8rem;
+  }
+}
+
+/* HP portrait */
+@media (max-width: 768px) {
+  nav > .wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .menu > ul {
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px 0;
+  }
+
+  .logo img {
+    height: 60px;
+  }
+
+  header {
+    height: 80vh;
+  }
+
+  .header-jumbotron > h4 {
+    font-size: 2.2rem;
+  }
+  .header-jumbotron > h5 {
+    font-size: 1.8rem;
+  }
+  .header-jumbotron > p {
+    font-size: 1.2rem;
+  }
+
+  #statistic > .wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #map {
+    height: 300px;
+  }
+
+  #map-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Layar sangat kecil (HP lama / mini) */
+@media (max-width: 480px) {
+  .header-jumbotron > h4 {
+    font-size: 1.8rem;
+  }
+  .header-jumbotron > h5 {
+    font-size: 1.5rem;
+  }
+  .header-jumbotron > p {
+    font-size: 1rem;
+  }
+
+  .button-xl {
+    font-size: 1rem;
+    padding: 10px;
+  }
+}

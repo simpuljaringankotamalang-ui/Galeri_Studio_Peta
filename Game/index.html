@@ -5,16 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tebak Kelurahan Kota Malang ⚔️</title>
 
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="game.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
+
+<audio id="bg-music" src="sound/game sountrack.mp3" loop></audio>
+
 <body>
   <div class="game-background"></div>
 
   <div class="game-container">
     <header class="header">
-      <div id="progress-text">0 / 57 (0%)</div>
+      <div id="progress-text">0 / 10 (0%)</div>
       <div id="question">🗺️ Klik pada kelurahan...</div>
       <div id="timer">00:00</div>
     </header>
@@ -23,12 +27,35 @@
       <div id="map"></div>
     </main>
 
-    <footer class="footer">
+    <!-- Overlay mulai -->
+    <div id="start-overlay">
+      <div class="start-content">
+        <img src="image/start-screen.png" alt="Start Screen" class="start-img">
+        <button id="start-btn" class="start-btn">Let's Goo!!</button>
+      </div>    
+    </div>
+
+    <footer class="footer"> 
       <button id="reset">Ulangi 🔁</button>
       <button id="start-pause">Mulai ▶️</button>
-      <button id="next">Lewati😭💔</button>
+      <button id="skip">Lewati😭💔</button>
     </footer>
   </div>
+
+  <div id="summary-overlay">
+  <div class="summary-content">
+    <h2>🎉 Permainan Selesai!</h2>
+    <div class="rating" id="rating-stars">
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+      <span class="star">⭐</span>
+    </div>
+    <p id="summary-correct">✅ Benar: 0</p>
+    <p id="summary-skipped">💔 Lewati: 0</p>
+    <p id="summary-time">⏱ Waktu: 00:00</p>
+    <button id="summary-restart">Main Lagi 🔁</button>
+  </div>
+</div>
 
   <script src="script.js"></script>
 </body>
