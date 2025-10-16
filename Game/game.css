@@ -516,144 +516,128 @@ body, html {
   overflow-x: hidden;
 }
 
-@media (max-width: 1024px) {
+/* Tablet (max 992px) */
+@media (max-width: 992px) {
   .game-container {
     width: 95%;
-    height: 85vh;
-    border-width: 4px;
-    padding: 10px;
+    height: 80vh;
   }
 
   .header, .footer {
     flex-direction: column;
-    gap: 8px;
-    font-size: 0.95rem;
     text-align: center;
+    gap: 5px;
+    padding: 8px 10px;
   }
 
-  .header #level, 
-  .header #quest {
-    font-size: 0.85rem;
+  .header span, .footer span {
+    font-size: 0.9rem;
   }
 
   button {
-    padding: 8px 14px;
+    padding: 8px 16px;
     font-size: 0.9rem;
+  }
+
+  .start-img {
+    width: 250px;
   }
 }
 
+/* HP landscape / kecil (max 768px) */
 @media (max-width: 768px) {
   body {
     overflow: auto;
   }
 
   .game-container {
-    width: 95%;
+    width: 100%;
     height: auto;
-    margin-top: 20px;
-    min-height: 80vh;
+    margin: 10px auto;
     border-width: 3px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    border-radius: 10px;
   }
 
   .header, .footer {
-    flex-direction: column;
-    font-size: 0.9rem;
-    gap: 10px;
-    padding: 8px;
+    padding: 6px 8px;
+    font-size: 0.85rem;
   }
 
-  #map {
-  width: 100%;
-  height: min(60vh, 400px); /* biar fleksibel di HP */
-  border-radius: 8px;
-}
+  #quest {
+    font-size: 0.9rem;
+  }
+
+  #level {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+
+  button {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    border-radius: 8px;
+  }
 
   .start-img {
-    width: 220px;
+    width: 200px;
   }
 
   .start-btn {
-    width: 80%;
-    padding: 12px 20px;
+    padding: 10px 26px;
     font-size: 1.1rem;
   }
 
-  #pause-overlay, #resume-overlay {
-    font-size: 2rem;
-    text-align: center;
+  .popup-message {
+    font-size: 1.5rem;
+    padding: 15px 25px;
   }
 
   .summary-content {
-    width: 90%;
-    padding: 1.5rem;
-    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    min-width: 260px;
   }
 
   .summary-content h2 {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
   }
 
   .summary-content p {
     font-size: 1rem;
   }
-
-  .rating .star {
-    font-size: 26px;
-  }
 }
 
+/* HP kecil banget (max 480px) */
 @media (max-width: 480px) {
-  .game-container {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border-width: 2px;
-  }
-
   .header, .footer {
-    font-size: 0.85rem;
-    padding: 6px;
+    font-size: 0.8rem;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .header #level, #quest {
+  button {
+    padding: 7px 12px;
     font-size: 0.8rem;
   }
 
-  button, .start-btn {
-    font-size: 1rem;
-    padding: 10px 18px;
-    min-width: 120px; 
-    border-radius: 10px;
+  .start-img {
+    width: 160px;
   }
 
-  .start-img {
-    width: 180px;
+  .start-btn {
+    padding: 8px 20px;
+    font-size: 1rem;
+  }
+
+  .overlay-text {
+    font-size: 1.4rem;
   }
 
   .popup-message {
     font-size: 1.2rem;
-    padding: 12px 20px;
-    border-radius: 12px;
   }
 
-  #pause-overlay, #resume-overlay {
-    font-size: 1.6rem;
+  #cursor-question {
+    font-size: 11px;
+    padding: 3px 6px;
   }
-
-  .summary-content {
-    min-width: 260px;
-    padding: 1rem;
-  }
-
-  .rating .star {
-    font-size: 22px;
-  }
-}
-
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
 }
