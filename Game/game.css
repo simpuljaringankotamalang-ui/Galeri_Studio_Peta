@@ -511,27 +511,21 @@ button.pause:hover {
 }
 
 /* === RESPONSIVE SETUP === */
-body, html {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
 @media (max-width: 1024px) {
   .game-container {
     width: 95%;
-    height: 85vh;
+    height: auto;
     border-width: 4px;
-    padding: 10px;
+    padding: 12px;
   }
 
   .header, .footer {
     flex-direction: column;
     gap: 8px;
     font-size: 0.95rem;
-    text-align: center;
   }
 
-  .header #level, 
+  .header #level,
   .header #quest {
     font-size: 0.85rem;
   }
@@ -543,17 +537,18 @@ body, html {
 }
 
 @media (max-width: 768px) {
-  body {
-    overflow: auto;
+  .game-container {
+    width: 100%;
+    margin: 0;
+    border-width: 3px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    min-height: 100dvh;
   }
 
-  .game-container {
-    width: 95%;
-    height: auto;
-    margin-top: 20px;
-    min-height: 80vh;
-    border-width: 3px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+  #map {
+    width: 100%;
+    height: 55dvh;
   }
 
   .header, .footer {
@@ -563,52 +558,19 @@ body, html {
     padding: 8px;
   }
 
-  #map {
-  width: 100%;
-  height: min(60vh, 400px);
-  border-radius: 8px;
-}
-
-  .start-img {
-    width: 220px;
-  }
-
   .start-btn {
     width: 80%;
     padding: 12px 20px;
     font-size: 1.1rem;
-  }
-
-  #pause-overlay, #resume-overlay {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  .summary-content {
-    width: 90%;
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .summary-content h2 {
-    font-size: 1.4rem;
-  }
-
-  .summary-content p {
-    font-size: 1rem;
-  }
-
-  .rating .star {
-    font-size: 26px;
   }
 }
 
 @media (max-width: 480px) {
   .game-container {
     width: 100%;
-    height: auto;
-    border-radius: 10px;
+    padding: 10px;
     border-width: 2px;
+    border-radius: 10px;
   }
 
   .header, .footer {
@@ -616,19 +578,18 @@ body, html {
     padding: 6px;
   }
 
-  .header #level, #quest {
+  .header #level,
+  #quest {
     font-size: 0.8rem;
   }
 
   button, .start-btn {
     font-size: 1rem;
     padding: 10px 18px;
-    min-width: 120px; 
-    border-radius: 10px;
   }
 
   .start-img {
-    width: 180px;
+    width: 160px;
   }
 
   .popup-message {
@@ -637,23 +598,17 @@ body, html {
     border-radius: 12px;
   }
 
-  #pause-overlay, #resume-overlay {
+  #pause-overlay,
+  #resume-overlay {
     font-size: 1.6rem;
   }
 
   .summary-content {
-    min-width: 260px;
+    width: 90%;
     padding: 1rem;
   }
 
   .rating .star {
     font-size: 22px;
   }
-}
-
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
 }
