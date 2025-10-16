@@ -35,6 +35,7 @@ body {
   z-index: 10;
   width: 90%;
   max-width: 1200px;
+  min-height: 100dvh;
   height: calc(100vh - 20px);
   margin: 10px auto;
   display: flex;
@@ -519,19 +520,20 @@ body, html {
 @media (max-width: 1024px) {
   .game-container {
     width: 95%;
-    height: 85vh;
+    height: auto;
     border-width: 4px;
-    padding: 10px;
+    padding: 12px;
   }
 
-  .header, .footer {
+  .header,
+  .footer {
     flex-direction: column;
     gap: 8px;
     font-size: 0.95rem;
     text-align: center;
   }
 
-  .header #level, 
+  .header #level,
   .header #quest {
     font-size: 0.85rem;
   }
@@ -544,19 +546,19 @@ body, html {
 
 @media (max-width: 768px) {
   body {
-    overflow: auto;
+    overflow-y: auto;
   }
 
   .game-container {
     width: 95%;
-    height: auto;
-    margin-top: 20px;
-    min-height: 80vh;
+    min-height: 100dvh;
+    margin-top: 0;
     border-width: 3px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
   }
 
-  .header, .footer {
+  .header,
+  .footer {
     flex-direction: column;
     font-size: 0.9rem;
     gap: 10px;
@@ -564,13 +566,11 @@ body, html {
   }
 
   #map {
-  width: 100%;
-  height: min(60vh, 400px); /* biar fleksibel di HP */
-  border-radius: 8px;
-}
+    height: 55dvh;
+  }
 
   .start-img {
-    width: 220px;
+    width: 200px;
   }
 
   .start-btn {
@@ -606,29 +606,33 @@ body, html {
 @media (max-width: 480px) {
   .game-container {
     width: 100%;
-    height: auto;
+    min-height: 100dvh;
     border-radius: 10px;
     border-width: 2px;
+    padding: 10px;
   }
 
-  .header, .footer {
+  .header,
+  .footer {
     font-size: 0.85rem;
     padding: 6px;
   }
 
-  .header #level, #quest {
+  .header #level,
+  #quest {
     font-size: 0.8rem;
   }
 
-  button, .start-btn {
+  button,
+  .start-btn {
     font-size: 1rem;
     padding: 10px 18px;
-    min-width: 120px; 
+    min-width: 120px;
     border-radius: 10px;
   }
 
   .start-img {
-    width: 180px;
+    width: 160px;
   }
 
   .popup-message {
@@ -637,7 +641,8 @@ body, html {
     border-radius: 12px;
   }
 
-  #pause-overlay, #resume-overlay {
+  #pause-overlay,
+  #resume-overlay {
     font-size: 1.6rem;
   }
 
@@ -649,11 +654,4 @@ body, html {
   .rating .star {
     font-size: 22px;
   }
-}
-
-.footer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
 }
