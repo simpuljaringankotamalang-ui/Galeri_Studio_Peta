@@ -628,14 +628,13 @@ body, html {
     border-radius: 10px;
   }
   
-  .header .home-btn {
-    left: 8px;
-    top: 50%;
-    transform: translateY(-50%);
-    padding: 5px;
+  .home-btn {
+    top: 6px;
+    left: 6px;
+    padding: 6px;
   }
 
-  .header .home-btn img {
+  .home-btn img {
     width: 26px;
     height: 26px;
   }

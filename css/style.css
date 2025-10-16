@@ -274,7 +274,6 @@ a {
 
 /*RESPONSIVE DESIGN SETTING*/
 
-/*Tablet & HP landscape */
 @media (max-width: 1024px) {
   .wrapper {
     width: 90%;
