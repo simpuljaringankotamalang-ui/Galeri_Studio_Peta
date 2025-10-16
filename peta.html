@@ -26,7 +26,6 @@
     .map-box:hover { transform: translateY(-5px); }
     .map-box img { max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto 10px auto; }
 
-    /* === LIGHTBOX === */
     .lightbox {
       display: none;
       position: fixed;
@@ -62,7 +61,6 @@
     .next-btn { right: 30px; }
     .caption { margin-top: 15px; color: #fff; font-size: 1.2rem; }
 
-    /* Tombol Home pojok kanan atas */
     .btn-home {
       position: fixed; top: 20px; right: 20px;
       background: #2563eb; color: white;
@@ -76,7 +74,6 @@
 </head>
 <body>
 
-  <!-- Tombol Home -->
   <a href="index.html" class="btn-home">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="22" height="22" fill="white">
     <path d="M280.4 148.3L96 300.1V464c0 8.8 7.2 16 16 16l112-.3c8.8 0 16-7.2 16-16V368c0-8.8 7.2-16 16-16h64c8.8 0 16 7.2 16 16v95.7c0 8.8 7.2 16 16 16l112 .3c8.8 0 16-7.2 16-16V300L295.6 148.3c-6-4.8-14.7-4.8-21.2 0zM571.6 251.5L488 182.6V44c0-6.6-5.4-12-12-12h-56c-6.6 0-12 5.4-12 12v72.6L318.5 43c-35.7-28.6-86.8-28.6-122.5 0L4.3 251.5c-5.1 4.1-5.8 11.6-1.6 16.7l25.5 31.3c4.1 5.1 11.6 5.8 16.7 1.6L280.4 92.5c6-4.8 14.7-4.8 21.2 0l235.5 208.6c5.1 4.1 12.6 3.5 16.7-1.6l25.5-31.3c4.2-5.2 3.5-12.7-1.7-16.7z"/>
@@ -86,19 +83,22 @@
   <div class="map-container">
     <div class="map-box" onclick="openLightbox(0)">
       <img src="peta/PETA ADMINISTRASI KOTA MALANG.png" alt="Peta 1">
-      <p>🗺️ Peta 1 (Administrasi Kota Malang)</p>
+      <p>Peta 1 (Administrasi Kota Malang)</p>
     </div>
     <div class="map-box" onclick="openLightbox(1)">
       <img src="peta/PENGGUNAAN LAHAN TAHUN 2024.png" alt="Peta 2">
-      <p>🗺️ Peta 2 (Penggunaan Lahan Tahun 2024)</p>
+      <p>Peta 2 (Penggunaan Lahan Tahun 2024)</p>
     </div>
     <div class="map-box" onclick="openLightbox(2)">
       <img src="peta/PETA RENCANA POLA RUANG.png" alt="Peta 3">
-      <p>🗺️ Peta 3 (Pola Ruang)</p>
+      <p>Peta 3 (Pola Ruang)</p>
+    </div>
+    <div class="map-box" onclick="openLightbox(2)">
+      <img src="peta/PETA DAERAH ALIRAN SUNGAI.png" alt="Peta 4">
+      <p>Peta 4 (Daerah Aliran Sungai)</p>
     </div>
   </div>
 
-  <!-- LIGHTBOX -->
   <div id="lightbox" class="lightbox">
     <span class="close-btn" onclick="closeLightbox()">&times;</span>
     <span class="nav-btn prev-btn" onclick="changeSlide(-1)">&#10094;</span>
@@ -111,7 +111,8 @@
     const images = [
       {src: "peta/PETA ADMINISTRASI KOTA MALANG.png", caption: "Peta 1 (Administrasi Kota Malang)"},
       {src: "peta/PENGGUNAAN LAHAN TAHUN 2024.png", caption: "Peta 2 (Penggunaan Lahan Tahun 2024)"},
-      {src: "peta/PETA RENCANA POLA RUANG.png", caption: "Peta 3 (Pola Ruang)"}
+      {src: "peta/PETA RENCANA POLA RUANG.png", caption: "Peta 3 (Pola Ruang)"},
+      {src: "peta/PETA DAERAH ALIRAN SUNGAI.png", caption: "Peta 4 (Daerah Aliran Sungai)"}
     ];
 
     let currentIndex = 0;
@@ -148,7 +149,6 @@
       img.style.transform = `translate(0px, 0px) scale(1)`;
     }
 
-    // Zoom pakai scroll
     img.addEventListener("wheel", function(e) {
       e.preventDefault();
       if (e.deltaY < 0) scale *= 1.1;
@@ -156,7 +156,6 @@
       img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
     });
 
-    // Drag pakai mouse
     img.addEventListener("mousedown", function(e) {
       dragging = true;
       startX = e.clientX - posX;
@@ -174,7 +173,6 @@
       img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
     });
 
-    // Double click zoom in/out
     img.addEventListener("dblclick", function() {
       if (scale === 1) scale = 2;
       else scale = 1;
@@ -182,20 +180,19 @@
       img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
     });
 
-    // Keyboard navigation
     window.addEventListener("keydown", function(e) {
       if (!lightbox.classList.contains("active")) return;
 
       switch(e.key) {
         case "ArrowRight": changeSlide(1); break;
         case "ArrowLeft": changeSlide(-1); break;
-        case "ArrowUp": scale *= 1.1; break;       // zoom in
-        case "ArrowDown": scale /= 1.1; break;     // zoom out
-        case "w": posY -= 20; break;               // geser atas
-        case "s": posY += 20; break;               // geser bawah
-        case "a": posX -= 20; break;               // geser kiri
-        case "d": posX += 20; break;               // geser kanan
-        case "Escape": closeLightbox(); break;     // keluar
+        case "ArrowUp": scale *= 1.1; break;       
+        case "ArrowDown": scale /= 1.1; break;     
+        case "w": posY -= 20; break;               
+        case "s": posY += 20; break;               
+        case "a": posX -= 20; break;               
+        case "d": posX += 20; break;              
+        case "Escape": closeLightbox(); break;     
       }
       img.style.transform = `translate(${posX}px, ${posY}px) scale(${scale})`;
     });

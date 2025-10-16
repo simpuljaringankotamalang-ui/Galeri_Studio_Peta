@@ -17,9 +17,7 @@ body {
     padding: 20px 0;
 }
 
-/*
-* Menu
-*/
+/*Menu*/
 nav {
     background-color: #000B58;
     color: #fff;
@@ -40,7 +38,7 @@ nav > .wrapper {
 }
 
 nav .logo img {
-  height: 100px; /* atur sesuai kebutuhan */
+  height: 100px;
   margin-left: 10px;
   display: block;
 }
@@ -68,9 +66,7 @@ nav .logo img {
     height: 90px;
 }
 
-/*
-* Hero / Jumbotron pakai video
-*/
+/*Hero Jumbotron video*/
 header {
     height: 100vh;
     position: relative;
@@ -80,7 +76,7 @@ header {
     overflow: hidden;
 }
 
-/* video background */
+/*video background*/
 header video {
     position: absolute;
     top: 0;
@@ -91,7 +87,7 @@ header video {
     z-index: -2;
 }
 
-/* layer hitam transparan */
+/*layer hitam transparan*/
 .header-opacity {
     background-color: #000000;
     width: 100%;
@@ -156,7 +152,7 @@ a {
     font-family: "Love Ya Like A Sister", cursive;
 }
 
-/*Section Statistik */
+/*Section Statistik*/
 #statistic {
     background-color: #364152;
     color: #fff;
@@ -195,7 +191,7 @@ a {
     margin-top: 5px;
 }
 
-/* Map */
+/*Map*/
 #map {
   height: 500px;
   width: 100%;
@@ -225,7 +221,7 @@ a {
     color: #fff;
 }
 
-/*Tombol fullscreen */
+/*Tombol fullscreen*/
 #leaflet-control-fullscreen a {
     background-color: #333 !important;
     color: white !important;
@@ -236,7 +232,7 @@ a {
     color: #fff !important;
 }
 
-/*Card list peta */
+/*Card list peta*/
 #map-list {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -276,11 +272,9 @@ a {
   transform: scale(1.2);
 }
 
-/* ============================= */
-/* 📱 RESPONSIVE DESIGN SETTING  */
-/* ============================= */
+/*RESPONSIVE DESIGN SETTING*/
 
-/* Tablet & HP landscape */
+/*Tablet & HP landscape */
 @media (max-width: 1024px) {
   .wrapper {
     width: 90%;
@@ -313,7 +307,7 @@ a {
   }
 }
 
-/* HP portrait */
+/*HP portrait */
 @media (max-width: 768px) {
   nav > .wrapper {
     flex-direction: column;
@@ -359,7 +353,7 @@ a {
   }
 }
 
-/* Layar sangat kecil (HP lama / mini) */
+/*Layar sangat kecil*/
 @media (max-width: 480px) {
   .header-jumbotron > h4 {
     font-size: 1.8rem;
