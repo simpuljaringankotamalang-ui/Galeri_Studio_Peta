@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Host Room - Tebak Kelurahan</title>
+  <link rel="stylesheet" href="game.css" />
+  <style>
+    body {
+      background-color: #f5f5f5;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    .container {
+      background: white;
+      display: inline-block;
+      padding: 20px 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .room-code {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 10px 0;
+      color: #333;
+    }
+    .players {
+      text-align: left;
+      margin-top: 20px;
+    }
+    .player-item {
+      padding: 6px 0;
+      border-bottom: 1px solid #ddd;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #4caf50;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #43a047;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎮 Mode Host</h1>
+    <p>Kode Room:</p>
+    <div id="roomCode" class="room-code">-</div>
+
+    <h3>Pemain yang sudah join:</h3>
+    <div id="playersList" class="players">Belum ada pemain...</div>
+
+    <button id="startGameBtn">Mulai Game 🚀</button>
+  </div>
+
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    // Generate kode acak 4 huruf
+    function generateRoomCode() {
+      const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ123456789";
+      return Array.from({ length: 4 }, () => chars[Math.floor(Math.random() * chars.length)]).join("");
+    }
+
+    const roomCode = generateRoomCode();
+    document.getElementById("roomCode").textContent = roomCode;
+
+    // Buat room baru di Firebase
+    const roomRef = ref(db, "rooms/" + roomCode);
+    set(roomRef, {
+      status: "waiting",
+      createdAt: Date.now()
+    });
+
+    // Listen siapa aja yang join
+    const playersList = document.getElementById("playersList");
+    onValue(ref(db, "rooms/" + roomCode + "/players"), (snapshot) => {
+      const data = snapshot.val();
+      if (!data) {
+        playersList.innerHTML = "Belum ada pemain...";
+        return;
+      }
+      const list = Object.keys(data).map(name => `<div class="player-item">👤 ${name}</div>`).join("");
+      playersList.innerHTML = list;
+    });
+
+    // Klik tombol "Mulai Game"
+    document.getElementById("startGameBtn").addEventListener("click", () => {
+      update(roomRef, { status: "playing" });
+      alert("Game dimulai! Peserta akan otomatis masuk ke halaman game 🎯");
+    });
+  </script>
+</body>
+</html>

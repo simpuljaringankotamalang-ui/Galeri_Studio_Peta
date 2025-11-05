@@ -1,14 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Love+Ya+Like+A+Sister&family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
 
 body {
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
-  overflow: hidden;
   background: #0b0f1a;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
-/*Background */
+/* Background */
 .game-background {
   position: fixed;
   inset: 0;
@@ -17,7 +20,6 @@ body {
   pointer-events: none;
 }
 
-/*Layer background*/
 .bg-layer-1,
 .bg-layer-2,
 .bg-layer-3 {
@@ -29,7 +31,7 @@ body {
   z-index: 0;
 }
 
-/*Frame utama */
+/* Frame utama */
 .game-container {
   position: relative;
   z-index: 10;
@@ -47,8 +49,9 @@ body {
   overflow: hidden;
 }
 
-/*Header Footer */
-.header, .footer {
+/* Header & Footer */
+.header,
+.footer {
   background: linear-gradient(180deg, #3a2b16, #201607);
   color: #f5d482;
   display: flex;
@@ -61,16 +64,11 @@ body {
   border-bottom: 2px solid #a67c00;
 }
 
-.header {
-  border-top: none;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.5);
-}
+.header { border-top: none; box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
+.footer { flex-wrap: nowrap; justify-content: center; gap: 10px; }
 
-/*Tambahan di header */
-#quest {
-  color: #ffe382;
-  text-shadow: 0 0 4px #000;
-}
+/* Header tambahan */
+#quest { color: #ffe382; text-shadow: 0 0 4px #000; }
 #level {
   font-size: 0.9rem;
   color: #a3ffb8;
@@ -81,7 +79,7 @@ body {
   box-shadow: inset 0 0 6px rgba(0,255,0,0.3);
 }
 
-/*Area peta */
+/* Map Area */
 .map-frame {
   flex: 1;
   position: relative;
@@ -89,11 +87,8 @@ body {
   border-top: 3px solid #a67c00;
   border-bottom: 3px solid #a67c00;
   overflow: hidden;
-  display: block;
-  padding: 0;
 }
 
-/*Map Leaflet */
 #map {
   position: absolute;
   inset: 0;
@@ -103,78 +98,63 @@ body {
   background: #e0e0e0;
 }
 
-/*Overlay Pause / Lock Map */
+/* Overlay */
 #map-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0,0,0,0.55);
   backdrop-filter: blur(6px);
   z-index: 999;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "Poppins", sans-serif;
   font-size: 2rem;
   font-weight: 600;
   color: #ff5555;
-  text-shadow: 0 0 15px rgba(255, 50, 50, 0.9);
+  text-shadow: 0 0 15px rgba(255,50,50,0.9);
   transition: opacity 0.4s ease;
   opacity: 0;
   pointer-events: none;
 }
+#map-overlay.active { opacity: 1; pointer-events: auto; }
 
-#map-overlay.active {
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/*Teks overlay */
 .overlay-text {
   font-size: 2rem;
   font-weight: 600;
   color: #fff;
   text-align: center;
-  text-shadow: 0 0 15px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 0 15px rgba(0,0,0,0.8);
   animation: floatText 3s ease-in-out infinite;
 }
-
-/*Versi teks pause */
 .overlay-text.pause {
   color: #ffbaba;
-  text-shadow: 0 0 20px rgba(255, 90, 90, 0.9);
+  text-shadow: 0 0 20px rgba(255,90,90,0.9);
 }
+@keyframes floatText { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
 
-/*Animasi teks melayang lembut */
-@keyframes floatText {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
-}
-
-/*Button*/
+/* Button */
 button {
-  background: linear-gradient(180deg, #5eff4a, #3ea82c);
-  border: 2px solid #25691a;
+  background: linear-gradient(180deg, #ff3c00, #ffffff);
+  border: 2px solid #00aeff;
   border-radius: 12px;
   padding: 9px 18px;
   color: #fff;
   font-weight: 700;
   text-shadow: 1px 1px 2px #000;
-  box-shadow: 0 4px #1f4e14;
+  box-shadow: none;
   transition: all 0.15s ease;
   cursor: pointer;
 }
-
-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px #1f4e14;
+button:hover { transform: translateY(-2px); box-shadow: 0 6px none; }
+button:active { transform: translateY(2px); box-shadow: 0 2px none; }
+button.pause {
+  background: linear-gradient(180deg, #ff5c5c, #c0392b);
+  border-color: #7a1c15;
+  box-shadow: 0 4px #7a1c15;
 }
+button.pause:hover { box-shadow: 0 6px #7a1c15; }
 
-button:active {
-  transform: translateY(2px);
-  box-shadow: 0 2px #1f4e14;
-}
-
-/* Tombol Home pojok kiri atas */
+/* Home button */
 .btn-home {
   position: fixed;
   top: 20px;
@@ -185,48 +165,41 @@ button:active {
   font-weight: 700;
   border-radius: 10px;
   border: 2px solid #ffea7f;
-  box-shadow: 0 0 15px rgba(255, 255, 100, 0.7);
-  z-index: 99999; /* tinggi banget biar gak ketutup layer lain */
+  box-shadow: 0 0 15px rgba(255,255,100,0.7);
+  z-index: 99999;
   cursor: pointer;
   transition: all 0.25s ease;
   text-decoration: none;
   font-size: 1.1rem;
 }
+.btn-home:hover { background: linear-gradient(180deg, #fff176, #ffca28); transform: scale(1.12); box-shadow: 0 0 25px rgba(255,255,100,1); }
+.btn-home:active { transform: scale(0.95); box-shadow: 0 0 10px rgba(255,230,0,0.8); }
 
-.btn-home:hover {
-  background: linear-gradient(180deg, #fff176, #ffca28);
-  transform: scale(1.12);
-  box-shadow: 0 0 25px rgba(255, 255, 100, 1);
-}
+/* Progress & Timer */
+#progress-text { color:#ffe382; font-weight:bold; letter-spacing:0.5px; }
 
-.btn-home:active {
-  transform: scale(0.95);
-  box-shadow: 0 0 10px rgba(255, 230, 0, 0.8);
-}
-
-/*Button Pause */
-button.pause {
-  background: linear-gradient(180deg, #ff5c5c, #c0392b);
-  border-color: #7a1c15;
-  box-shadow: 0 4px #7a1c15;
-}
-button.pause:hover {
-  box-shadow: 0 6px #7a1c15;
-}
-
-/*Progress & Timer */
-#progress-text {
-  color: #ffe382;
-  font-weight: bold;
-  letter-spacing: 0.5px;
-}
 #timer {
-  font-family: "Courier New", monospace;
-  color: #00ffcc;
-  text-shadow: 0 0 8px #00ffcc;
+  background: rgba(30, 20, 10, 0.9);
+  border: 1.5px solid #d8a100; 
+  border-radius: 8px;
+  padding: 4px 10px;
+  color: #e5ff00; 
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 6px rgba(229, 255, 0, 0.2);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.4); 
+  transition: background 0.3s, transform 0.2s;
 }
 
-/*Cursor Label */
+/* Saat update tiap detik biar halus dikit */
+.timer-flash {
+  transform: scale(1.1);
+  background: rgba(40, 30, 15, 1);
+}
+
+/* Cursor label */
 #cursor-question {
   position: fixed;
   pointer-events: none;
@@ -241,7 +214,7 @@ button.pause:hover {
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-/*Popup hasil */
+/* Popup */
 .popup-message {
   position: fixed;
   top: 50%;
@@ -257,103 +230,281 @@ button.pause:hover {
   opacity: 1;
   transition: opacity 0.4s ease;
 }
-.popup-message.success { background-color: rgba(46, 204, 113, 0.85); }
-.popup-message.error { background-color: rgba(255, 124, 222, 0.85); }
-.popup-message.fade-out { opacity: 0; }
 
-/*=== SUMMARY OVERLAY ===*/
-#summary-overlay {
+/* POPUP dasar */
+.popup {
   position: fixed;
-  top: 0; 
-  left: 0;
-  width: 100%; 
-  height: 100%;
-  background: rgba(0,0,0,0.8);
-  display: none;
-  align-items: center;
-  justify-content: center;
+  top: -150px; 
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 9999;
-  transition: opacity 0.4s ease;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  padding: 10px 20px;
+  text-align: center;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
   opacity: 0;
 }
-#summary-overlay.show {
-  display: flex;
+
+/* Pas muncul */
+.popup.show {
+  top: 60px; 
   opacity: 1;
 }
 
-.summary-content {
-  background: linear-gradient(180deg, #18242f, #0b131a);
-  color: #fff;
-  text-align: center;
-  padding: 2rem 3rem;
-  border-radius: 20px;
-  box-shadow: 0 0 30px rgba(0, 255, 150, 0.3);
-  border: 2px solid #00ff95;
-  min-width: 320px;
-  animation: popIn 0.4s ease;
+/* Pas hilang */
+.popup.hide {
+  top: -150px;
+  opacity: 0;
 }
 
+/* Isi popup */
+.popup-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.popup-content p {
+  font-size: 3rem;     
+  font-weight: 600;      
+  color: #333;           
+  margin: 0;             
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.popup-lion {
+  width: 160px;
+  height: auto;
+  animation: bounceLion 1s ease-in-out;
+}
+
+.popup.success { border: 3px solid #00b894; }
+.popup.error { border: 3px solid #d63031; }
+.popup.info { border: 3px solid #0984e3; }
+
+.popup.success p { font-size: 1.5rem; color: #0c713d; }
+.popup.error p { font-size: 1.4rem; color: #a80000; }
+.popup.info p { font-size: 1.3rem; color: #8a6d00; }
+
+/* === Efek muncul dari atas + bounce lucu === */
+.popup.show {
+  animation: dropBounce 0.2s ease forwards;
+}
+
+/* ✨ Keyframes magic-nya */
+@keyframes dropBounce {
+  0% {
+    top: -200px;
+    opacity: 0;
+    transform: translateX(-50%) scale(0.8);
+  }
+  60% {
+    top: 70px;
+    opacity: 1;
+    transform: translateX(-50%) scale(1.05);
+  }
+  80% {
+    top: 55px;
+    transform: translateX(-50%) scale(0.95);
+  }
+  100% {
+    top: 60px;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+/* 🪶 Lion-nya goyang lembut */
+@keyframes floatLion {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-5px); }
+}
+
+#summary-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+}
+
+#summary-overlay.active {
+  visibility: visible;
+  opacity: 1;
+}
+
+.summary-frame-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* konten dalam frame */
+#summary-content {
+  position: absolute;
+  top: 0%;
+  left: none;
+  transform: translateX(-50%);
+  width: 80%;
+  text-align: center;
+}
+
+.summary-content h2 {
+  font-size: 1.2rem;
+  margin: 0.4rem 0;
+}
+
+.summary-content h3 {
+  margin-top: 120px;
+  margin-bottom: 4px;
+  position: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #d9ff00;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  font-family: quantico, sans-serif;
+}
+
+.summary-content p {
+  margin: 0.5rem 0;
+}
+
+.summary-content h3 {
+  font-size: 1rem;
+  margin-top: 0.6rem;
+}
+
+/* tombol main lagi */
+.summary-content button.restart-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.summary-content button.restart-btn:hover {
+  transform: scale(1.05);
+}
+
+/* === Teks & ikon === */
+.summary-content p {
+  font-size: 1rem;
+  margin: 4px 0;
+}
+
+.summary-icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 3px rgba(0,0,0,0.4));
+}
+
+.podium-slot {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+}
+
+.podium-character {
+  width: 40px;
+  height: auto;
+  object-fit: contain;
+  animation: podiumPop 0.8s ease-out forwards;
+}
+
+.podium-name {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  z-index: 3;
+}
+
+.podium-1 .podium-name { color: #ffe600; }
+.podium-2 .podium-name { color: #d0d0d0; }
+.podium-3 .podium-name { color: #ff9955; }
+
+/* === Rank Player === */
+.player-rank-box {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.loading-dots {
+  font-style: normal;
+  font-weight: 700;
+  size: 10px;
+  color: #ff008c;
+}
+
+/* === Restart Button (PNG) === */
+#summary-restart {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-top: auto;
+}
+
+.restart-btn {
+  position: absolute;
+  bottom: -40px;
+  left: 49.5%;
+  transform: translateX(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease; 
+}
+
+.restart-btn:hover {
+  transform: translateX(-50%) scale(1.1); 
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.7));
+}
+
+/* === Animation === */
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-.summary-content h2 {
-  color: #00ff95;
-  margin-bottom: 15px;
-  text-shadow: 0 0 10px #00ff95;
+/* === ICON RINGKASAN (BENAR, LEWAT, WAKTU) === */
+.summary-icon {
+  width: 22px;
+  height: 22px;
+  vertical-align: middle;
+  margin-right: 8px;
+  border-radius: 6px;
 }
 
-.summary-content p {
-  margin: 6px 0;
-  font-size: 1.1rem;
-  color: #e6ffe9;
+/* === ANIMASI POP-IN === */
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-/*=== Rating Stars ===*/
-.rating {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-  margin: 10px 0 20px 0;
-}
-
-.star {
-  font-size: 30px;
-  color: #2d3b33;
-  text-shadow: 0 0 10px rgba(0,255,150,0.2);
-  transition: color 0.3s ease, transform 0.25s ease;
-}
-.star.active {
-  color: #00ff95;
-  transform: scale(1.25);
-  text-shadow: 0 0 20px #00ff95;
-}
-
-/*Restart button*/
-#summary-restart {
-  margin-top: 10px;
-  background: linear-gradient(180deg, #5eff4a, #3ea82c);
-  border: 2px solid #25691a;
-  border-radius: 12px;
-  padding: 10px 24px;
-  color: #fff;
-  font-weight: 700;
-  cursor: pointer;
-  transition: 0.2s;
-}
-#summary-restart:hover {
-  transform: scale(1.08);
-}
-
-/* ================= START OVERLAY ================= */
+/* === START OVERLAY === */
 #start-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.95));
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.8), rgba(0,0,0,0.95));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -362,311 +513,742 @@ button.pause:hover {
   transition: opacity 0.6s ease, visibility 0.6s ease;
 }
 
+#start-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* === ANIMASI === */
+@keyframes goyangPelan {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes goyangLucu {
+  0%, 100% { transform: rotate(0deg) translateY(0); }
+  50% { transform: rotate(-3deg) translateY(-6px); }
+}
+
+@keyframes goyangTombol {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.04) rotate(-2deg); }
+  75% { transform: scale(1.04) rotate(2deg); }
+}
+
+/* === ISI OVERLAY === */
 .start-content {
+  position: fixed; 
+  top: 0;
+  left: 0;
+  width: 100vw; 
+  height: 100vh; 
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
-  gap: 2.2rem;
+  background-color: #000; 
+  gap: 1.8rem;
   animation: fadeInUp 1s ease;
+  z-index: 9999; 
 }
 
+/* Gambar utama (maskot, karakter, dll) */
 .start-img {
-  width: 320px;
-  margin: 0 auto;
-  filter: drop-shadow(0 0 25px rgba(0, 255, 255, 0.4));
-  animation: floaty 3s ease-in-out infinite;
+  width: 350px;
+  max-width: 80%;
+  height: auto;
+  animation: goyangPelan 2s ease-in-out infinite;
+  transition: transform 0.3s;
 }
 
+/* Input nama */
+.name-input {
+  padding: 12px 18px;
+  font-size: 1.1rem;
+  border-radius: 12px;
+  border: 2px solid #ffc107;
+  text-align: center;
+  outline: none;
+  background: #fffdf5;
+}
+
+/* Tombol Let's Go pakai PNG */
 .start-btn {
-  background: linear-gradient(90deg, #ffffff, #ffffff);
-  color: #000;
+  background: none;
   border: none;
-  border-radius: 14px;
-  padding: 14px 38px;
-  font-size: 1.3rem;
-  font-weight: bold;
+  padding: 0;
   cursor: pointer;
-  letter-spacing: 0.5px;
-  animation: pulseGlow 1.8s infinite ease-in-out;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  box-shadow: 0 0 20px rgba(0, 255, 180, 0.5);
+  transition: transform 0.3s ease;
+  animation: goyangTombol 2.5s ease-in-out infinite;
+}
+
+.start-btn img {
+  width: 140px;
+  height: auto;
+  display: block;
+  pointer-events: none;
 }
 
 .start-btn:hover {
   transform: scale(1.1);
-  box-shadow: 0 0 35px rgba(0, 255, 255, 0.8);
+  animation-play-state: paused;
+filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 }
 
-/*Animasi tambahan*/
-@keyframes floaty {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
+/* efek bounce pas diklik */
+.start-btn:active img {
+  transform: scale(0.9) rotate(-3deg);
+  filter: drop-shadow(0 0 20px rgba(0, 255, 200, 0.8));
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(0, 255, 255, 0.9);
-  }
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin: 0 10px;
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(-30px);
-  }
+.icon-btn img {
+  width: 50px;
+  height: 50px;
+  border-radius: none;
+  background: none;
+  box-shadow: none;
+  padding: none;
+}
+
+.icon-btn:hover img {
+  transform: scale(1.15);
+  filter: brightness(1.2);
+}
+
+.icon-btn:active img {
+  transform: scale(0.95);
+  filter: brightness(0.9);
+}
+
+.stat-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-right: 4px;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
 }
 
 
-/*Hidden*/
-#start-overlay.hidden {
+/* Animations */
+@keyframes popIn { from{transform:scale(0.8);opacity:0;} to{transform:scale(1);opacity:1;} }
+@keyframes pulseGlow { 0%,100%{box-shadow:0 0 20px rgba(0,255,180,0.6); transform:scale(1);} 50%{box-shadow:0 0 35px rgba(0,255,255,0.9); transform:scale(1.08);} }
+@keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+
+
+/*Styling teks peringkat pemain*/
+.player-rank-box {
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 8px;
+  color: #ff008c;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-radius: 10px;
+  padding: 5px 10px;
+  background: rgba(169, 252, 255, 0.479);
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
+  font-family: quantico, sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+#summary-overlay::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(0, 0, 0);
+  z-index: 0;
+}
+
+.summary-stats {
+  display: flex;             
+  justify-content: center;    
+  gap: 90px;                  
+  margin-top: 0px; 
+  margin-bottom: 50px;         
+  text-align: center;
+  margin-bottom: 0px;
+  color: #000000;
+  font-family: quantico, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
+  
+.loading-dots {
+  color: #000000;
+  font-size: 1rem;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  position: relative;
+}
+
+.loading-dots::after {
+  content: "";
+  display: inline-block;
+  width: 1em;
+  text-align: left;
+  animation: dots 1.5s steps(4, end) infinite;
+}
+
+@keyframes dots {
+  0% { content: ""; }
+  25% { content: "."; }
+  50% { content: ".."; }
+  75% { content: "..."; }
+  100% { content: ""; }
+}
+
+/*Efek fade masuk urut */
+.fade-in-seq {
   opacity: 0;
-  visibility: hidden;
+  transform: translateY(10px);
+  animation: fadeSeq 0.6s ease forwards;
 }
 
-/* ================= ANIMATIONS ================= */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
+@keyframes fadeSeq {
   to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-@keyframes pulseGlow {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(0, 255, 180, 0.6);
-    transform: scale(1);
-  }
-  50% {
-    box-shadow: 0 0 35px rgba(0, 255, 255, 0.9);
-    transform: scale(1.08);
-  }
+/*Efek muncul lembut untuk tiap item leaderboard */
+.leaderboard li {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeItem 0.6s ease forwards;
 }
 
-@keyframes floaty {
-  0%, 100% {
+.leaderboard li:nth-child(1) { animation-delay: 0.1s; }
+.leaderboard li:nth-child(2) { animation-delay: 0.2s; }
+.leaderboard li:nth-child(3) { animation-delay: 0.3s; }
+.leaderboard li:nth-child(4) { animation-delay: 0.4s; }
+.leaderboard li:nth-child(5) { animation-delay: 0.5s; }
+
+@keyframes fadeItem {
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
-  50% {
-    transform: translateY(-10px);
+}
+
+@keyframes smoothPop {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/*Transisi lembut di summary */
+.summary-content {
+  animation: smoothPop 0.5s ease forwards;
+}
+
+/*Warna Top 3 Leaderboard */
+.leaderboard li.gold {
+  color: #ffd700;
+  font-weight: bold;
+
+}
+.leaderboard li.silver {
+  color: #c0c0c0;
+  font-weight: bold;
+  
+}
+.leaderboard li.bronze {
+  color: #cd7f32;
+  font-weight: bold;
+  
+}
+
+.medal .shine {
+  animation: rotateShine 3s linear infinite;
+  transform-origin: center;
+  opacity: 0.85;
+}
+
+.shine-sweep {
+  animation: shineSweep 2s infinite linear;
+}
+
+@keyframes shineSweep {
+  0% {
+    transform: translateX(-120px) rotate(30deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateX(120px) rotate(30deg);
+    opacity: 0;
   }
 }
 
-#resume-overlay {
-  position: fixed;
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    filter: drop-shadow(0 0 4px rgba(255,255,255,0.5));
+  }
+  50% {
+    transform: scale(1.15);
+    filter: drop-shadow(0 0 10px rgba(255,255,255,0.9));
+  }
+}
+
+/* Warna medali */
+.gold-medal circle {
+  fill: #ffd700;
+  filter: drop-shadow(0 0 6px #ffea70);
+}
+.silver-medal circle {
+  fill: #c0c0c0;
+  filter: drop-shadow(0 0 6px #e0e0e0);
+}
+.bronze-medal circle {
+  fill: #cd7f32;
+  filter: drop-shadow(0 0 6px #ffb07b);
+}
+
+/* Struktur baris leaderboard */
+.player-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 0;
+}
+
+.medal-icon {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
+  margin-right: 8px;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
+  animation: swing 2.4s ease-in-out infinite;
+}
+
+@keyframes swing {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(6deg); }
+  75% { transform: rotate(-6deg); }
+}
+
+.top3-entry {
+  position: relative;
+  animation: popChampion 0.7s ease-out forwards;
+}
+
+.top3-entry::after {
+  content: "";
+  position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #2ecc71;
-  text-shadow: 0 0 20px rgba(46, 204, 113, 0.9);
-  opacity: 0;
+  width: 50%;
+  height: 500%;
+  transform: translate(-50%, -50%) scale(0);
+  background: radial-gradient(circle, rgba(255,255,200,0.7) 0%, rgba(255,255,255,0) 70%);
+  border-radius: 10%;
+  animation: flashBurst 1.2s ease-out forwards;
   pointer-events: none;
-  z-index: 2000;
-  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 0;
 }
 
-#resume-overlay.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+/* Struktur baris leaderboard */
+.player-entry {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
 }
+
+/* === PODIUM FIXED STYLING (CLEAN & CENTERED) === */
+.podium-container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin: -1rem auto 0rem auto;
+  width: 360px;
+  height: 290px;
+}
+
+/* podium base (gambar png utama) */
+.podium-container .podium-image {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* slot karakter podium */
+.podium-slot {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+}
+
+/* posisi slot 1–2–3 (disesuaikan sama tinggi tingkat podium) */
+.podium-1 {
+  bottom: 95px;
+  left: 52%;
+  transform: translateX(-50%);
+}
+.podium-2 {
+  bottom: 75px;
+  left: calc(60% - 130px);
+  transform: translateX(-50%);
+}
+.podium-3 {
+  bottom: 56px;
+  left: calc(50% + 100px);
+  transform: translateX(-50%);
+}
+
+/* karakter podium */
+.podium-character {
+  width: 85px;
+  height: auto;
+  object-fit: contain;
+  animation: podiumPop 0.8s ease-out forwards;
+}
+
+/* nama pemain di atas karakter */
+.podium-name {
+  position: absolute;
+  bottom: 100%; /* taruh di atas karakter */
+  left: 50%;
+  transform: translateX(-50%) translateY(15px);
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  white-space: nowrap;
+  z-index: 3;
+  font-family: quantico, sans-serif;
+}
+
+/* warna tiap juara */
+.podium-1 .podium-name { color: #ffe600; }
+.podium-2 .podium-name { color: #d0d0d0; }
+.podium-3 .podium-name { color: #ff9955; }
+
+/* animasi pop karakter */
+@keyframes podiumPop {
+  from { transform: translateY(25px) scale(0.85); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* === LEADERBOARD CLEAN === */
+.leaderboard {
+  list-style: none;
+  padding: 12px 16px;
+  margin: 12px auto 20px;
+  width: 90%;
+  max-width: none;
+  max-height: 150px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 0;
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  text-align: left;
+  scrollbar-width: thin;
+  scrollbar-color: #a9ff8f transparent;
+}
+
+/* Item tiap pemain */
+.leaderboard li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 6px;
+  margin-bottom: 4px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.25);
+  color: #fff;
+  font-size: 0.85rem;
+  transition: background 0.2s ease;
+  font-family: quantico, sans-serif;
+}
+
+.leaderboard li:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* Scroll bar lembut */
+.leaderboard::-webkit-scrollbar {
+  width: 6px;
+}
+.leaderboard::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+}
+
+/* Efek muncul lembut */
+.leaderboard li {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeItem 0.6s ease forwards;
+}
+.leaderboard li:nth-child(1) { animation-delay: 0.1s; }
+.leaderboard li:nth-child(2) { animation-delay: 0.2s; }
+.leaderboard li:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes fadeItem {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Warna top 3 */
+.leaderboard li:nth-child(1) { color: #ffd700; font-weight: bold; }
+.leaderboard li:nth-child(2) { color: #c0c0c0; font-weight: bold; }
+.leaderboard li:nth-child(3) { color: #cd7f32; font-weight: bold; }
+
 
 #pause-overlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(0.9);
-  font-family: "Poppins", sans-serif;
-  font-size: 3rem;
-  font-weight: 700;
-  color: #f10f0f;
-  text-shadow: 0 0 20px rgba(241, 15, 15, 0.9);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 2000;
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-#pause-overlay.show {
-  opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
-}
-
-/* === RESPONSIVE SETUP === */
-body, html {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
-
-@media (max-width: 1024px) {
-  .game-container {
-    width: 95%;
-    height: 85vh;
-    border-width: 4px;
-    padding: 10px;
-  }
-
-  .header, .footer {
-    flex-direction: column;
-    gap: 8px;
-    font-size: 0.95rem;
-    text-align: center;
-  }
-
-  .header #level, 
-  .header #quest {
-    font-size: 0.85rem;
-  }
-
-  button {
-    padding: 8px 14px;
-    font-size: 0.9rem;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    overflow: auto;
-  }
-
-  .game-container {
-    width: 95%;
-    height: auto;
-    margin-top: 20px;
-    min-height: 80vh;
-    border-width: 3px;
-    box-shadow: 0 0 25px rgba(0,0,0,0.6);
-  }
-
-  .header, .footer {
-    flex-direction: column;
-    font-size: 0.9rem;
-    gap: 10px;
-    padding: 8px;
-  }
-
-  #map {
-    width: 100%;
-    height: calc(100vh - 260px);
-    min-height: 350px;
-    border-radius: 8px;
-  }
-
-  .start-img {
-    width: 220px;
-  }
-
-  .start-btn {
-    width: 80%;
-    padding: 12px 20px;
-    font-size: 1.1rem;
-  }
-
-  #pause-overlay, #resume-overlay {
-    font-size: 2rem;
-    text-align: center;
-  }
-
-  .summary-content {
-    width: 90%;
-    padding: 1.5rem;
-    border-radius: 16px;
-  }
-
-  .summary-content h2 {
-    font-size: 1.4rem;
-  }
-
-  .summary-content p {
-    font-size: 1rem;
-  }
-
-  .rating .star {
-    font-size: 26px;
-  }
-}
-
-@media (max-width: 480px) {
-  .game-container {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    border-width: 2px;
-    position: relative;
-  }
-
-  .header, .footer {
-    font-size: 0.85rem;
-    padding: 6px;
-  }
-
-  .header #level, #quest {
-    font-size: 0.8rem;
-  }
-
-  button, .start-btn {
-    font-size: 1rem;
-    padding: 10px 18px;
-    min-width: 120px; 
-    border-radius: 10px;
-  }
-  
-  .home-btn {
-    top: 6px;
-    left: 6px;
-    padding: 6px;
-  }
-
-  .home-btn img {
-    width: 26px;
-    height: 26px;
-  }
-
-  .start-img {
-    width: 180px;
-  }
-
-  .popup-message {
-    font-size: 1.2rem;
-    padding: 12px 20px;
-    border-radius: 12px;
-  }
-
-  #pause-overlay, #resume-overlay {
-    font-size: 1.6rem;
-  }
-
-  .summary-content {
-    min-width: 260px;
-    padding: 1rem;
-  }
-
-  .rating .star {
-    font-size: 22px;
-  }
-}
-
-.footer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.6);
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  gap: 10px;
+  z-index: 5; /* cukup buat nutup map, tapi gak nutup tombol/header */
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+#pause-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+#pause-lion {
+  width: 230px;
+  margin-bottom: 10px;
+  animation: float 2s ease-in-out infinite;
+}
+
+.pause-text {
+  font-size: 2rem;
+  color: #ff6565;
+  font-weight: bold;
+  text-shadow: 0 2px 4px rgba(255,255,255,0.8);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+.drone-fly {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: 70px;
+  transform: translateX(-50%);
+  animation: droneFloat 3s ease-in-out infinite alternate,
+             droneMove 10s ease-in-out infinite alternate;
+  z-index: 9999;
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,0.8));
+}
+
+/* Animasi RGB kerucut */
+@keyframes rgbPulse {
+  0%   { background: radial-gradient(ellipse at top, rgba(255, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0) 80%); }
+  25%  { background: radial-gradient(ellipse at top, rgba(255, 255, 0, 0.7) 0%, rgba(255, 255, 0, 0) 80%); }
+  50%  { background: radial-gradient(ellipse at top, rgba(0, 0, 255, 0.7) 0%, rgba(0, 0, 255, 0) 80%); }
+  75%  { background: radial-gradient(ellipse at top, rgba(128, 0, 255, 0.7) 0%, rgba(128, 0, 255, 0) 80%); }
+  100% { background: radial-gradient(ellipse at top, rgba(255, 0, 0, 0.7) 0%, rgba(255, 0, 0, 0) 80%); }
+}
+
+/* Flicker */
+@keyframes lightPulse {
+  0%,100% { opacity: 0.7; scaleY(1); }
+  50%     { opacity: 0.9; scaleY(1.05); }
+}
+
+/* Sweep kanan-kiri */
+@keyframes spotlightSweep1 {
+  0%   { transform: rotate(-10deg); }
+  50%  { transform: rotate(10deg); }
+  100% { transform: rotate(-10deg); }
+}
+@keyframes spotlightSweep2 {
+  0%   { transform: rotate(-20deg); }
+  50%  { transform: rotate(20deg); }
+  100% { transform: rotate(-20deg); }
+}
+@keyframes spotlightSweep3 {
+  0%   { transform: rotate(-5deg); }
+  50%  { transform: rotate(5deg); }
+  100% { transform: rotate(-5deg); }
+}
+
+/* Container Drone-light */
+.drone-light {
+  position: absolute;
+  top: 26%;       /* sama seperti drone */
+  left: 50%;      /* sama seperti drone */
+  width: 20px;
+  height: 150px;
+  transform: translateX(-50%);
+  transform-origin: top center;
+  pointer-events: none;
+  z-index: 9998;
+  animation: droneFloat 3s ease-in-out infinite alternate,
+             droneMove 10s ease-in-out infinite alternate;
+}
+
+/* Sorot 1 */
+.drone-light .spotlight1,
+.drone-light .spotlight2,
+.drone-light .spotlight3 {
+  position: absolute;
+  top: 0;
+  left: 0%;
+  width: 20px;
+  height: 150px;
+  transform-origin: top center;
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  filter: blur(4px);
+  animation: droneFloat 3s ease-in-out infinite alternate,
+             droneMove 10s ease-in-out infinite alternate;
+}
+
+/* Animasi sweep masing-masing sorot */
+.drone-light .spotlight1 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep1 4s ease-in-out infinite; }
+.drone-light .spotlight2 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep2 5s ease-in-out infinite; }
+.drone-light .spotlight3 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep3 6s ease-in-out infinite; }
+
+
+/* 🌫️ Naik-turun */
+@keyframes droneFloat {
+  0% { transform: translate(-50%, 0); }
+  100% { transform: translate(-50%, -20px); }
+}
+
+/* ↔️ Kiri-kanan */
+@keyframes droneMove {
+  0% { left: 35%; }
+  100% { left: 65%; }
+}
+
+/* ✨ Lampu kedip halus */
+@keyframes lightPulse {
+  0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
+  50% { opacity: 0.9; transform: translateX(-50%) scale(1.4); }
+}
+
+/* ===================== MOBILE RESPONSIVE ===================== */
+
+/* Tablet & small desktop */
+@media (max-width:1024px){
+  .game-container {
+    width:95%;
+    height:85vh;
+    border-width:4px;
+    padding:10px;
+  }
+  .header,.footer {
+    flex-direction:column;
+    gap:8px;
+    font-size:0.95rem;
+    text-align:center;
+  }
+  .header #level, .header #quest { font-size:0.85rem; }
+  button { padding:8px 14px; font-size:0.9rem; }
+  #map { min-height:400px; }
+  .podium-container { width:300px; height:240px; }
+  .podium-character { width:70px; }
+  .start-img { width:280px; }
+  .start-btn img { width:120px; }
+  .summary-content { width:85%; padding:1rem; }
+  .summary-content h2 { font-size:1.3rem; }
+  .summary-content p { font-size:0.95rem; }
+  .leaderboard { max-height:120px; }
+}
+
+/* Small devices (phones) */
+@media (max-width:768px){
+  body { overflow:auto; }
+  .game-container {
+    width:95%;
+    height:auto;
+    margin-top:20px;
+    min-height:80vh;
+    border-width:3px;
+    box-shadow:0 0 25px rgba(0,0,0,0.6);
+  }
+  .header,.footer {
+    flex-direction:column;
+    font-size:0.9rem;
+    gap:10px;
+    padding:8px;
+  }
+  #map {
+    width:100%;
+    height:calc(100vh - 260px);
+    min-height:350px;
+    border-radius:8px;
+  }
+  .start-img { width:220px; }
+  .start-btn img { width:140px; }
+  .summary-content { width:90%; padding:1.5rem; border-radius:16px; }
+  .summary-content h2 { font-size:1.4rem; }
+  .summary-content p { font-size:1rem; }
+  .rating .star { font-size:26px; }
+  .podium-container { width:320px; height:260px; }
+  .podium-character { width:75px; }
+  .leaderboard { max-height:130px; }
+  .popup-message { font-size:1.3rem; padding:14px 22px; }
+}
+
+/* Extra small devices (phones portrait) */
+@media (max-width:480px){
+  .game-container {
+    width:100%;
+    height:auto;
+    border-radius:10px;
+    border-width:2px;
+    position:relative;
+  }
+  .header,.footer { font-size:0.85rem; padding:6px; }
+  .header #level,#quest { font-size:0.8rem; }
+  button,.start-btn img { font-size:1rem; padding:10px 18px; min-width:120px; border-radius:10px; }
+  .start-img { width:180px; }
+  .summary-content { min-width:260px; padding:1rem; }
+  .summary-content h2 { font-size:1.2rem; }
+  .summary-content p { font-size:0.95rem; }
+  .rating .star { font-size:22px; }
+  .podium-container { width:260px; height:220px; }
+  .podium-character { width:65px; }
+  .leaderboard { max-height:110px; }
+  .popup-message { font-size:1.2rem; padding:12px 20px; border-radius:12px; }
+  #map { height:calc(100vh - 240px); min-height:300px; border-radius:6px; }
 }

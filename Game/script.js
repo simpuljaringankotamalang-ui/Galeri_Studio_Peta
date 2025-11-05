@@ -1,11 +1,17 @@
+import {
+  saveScore,
+  loadLeaderboardRealtime,
+  resetLeaderboardListener,
+  getPlayerRank
+} from "./leaderboard.js";
+
+// ===== AUDIO =====
 const bgMusic = document.getElementById("bg-music");
 const correctSound = new Audio("/benar.mp3");
 const wrongSound = new Audio("/salah.mp3");
+correctSound.preload = wrongSound.preload = "auto";
 
-correctSound.preload = "auto";
-wrongSound.preload = "auto";
-
-// =================== BACKGROUND ===================
+// ===== BACKGROUND =====
 const bg = document.querySelector(".game-background");
 bg.innerHTML = `
   <div class="bg-layer-1"></div>
@@ -13,7 +19,7 @@ bg.innerHTML = `
   <div class="bg-layer-3"></div>
 `;
 
-// =================== MAP INIT ===================
+// ===== MAP =====
 let map = L.map("map").setView([-7.98, 112.63], 12);
 let interactionLocked = true;
 
@@ -26,7 +32,6 @@ function lockMap() {
   map.keyboard.disable();
   interactionLocked = true;
 }
-
 function unlockMap() {
   map.dragging.enable();
   map.touchZoom.enable();
@@ -36,164 +41,146 @@ function unlockMap() {
   map.keyboard.enable();
   interactionLocked = false;
 }
-
 lockMap();
 
-// =================== OVERLAYS ===================
-const mapOverlay = document.createElement("div");
-mapOverlay.id = "map-overlay";
-document.querySelector(".map-frame").appendChild(mapOverlay);
-
-// =================== BASEMAP ===================
 L.tileLayer("https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}.png", {
   maxZoom: 18,
   attribution: "",
 }).addTo(map);
 
-// =================== VARIABEL GLOBAL ===================
-let geojsonLayer;
-let currentQuestion = null;
-let score = 0;
-let total = 10;
-let kelurahanList = [];
-let skippedList = [];
-let answered = 0;
-let correctAnswers = 0;
-let skippedCount = 0;
-let totalTime = 0;
+// ===== GLOBAL VARS =====
+let geojsonLayer, currentQuestion = null, score = 0, total = 10;
+let kelurahanList = [], skippedList = [];
+let answered = 0, correctAnswers = 0, skippedCount = 0, totalTime = 0;
+let playerName = "";
+let summaryShown = false;
+let scoreSaved = false;
+let gameEnded = false;
 
-// =================== TIMER ===================
-let timerInterval;
-let seconds = 0;
-let isRunning = false;
-
+// ===== TIMER =====
+let timerInterval, seconds = 0, isRunning = false;
 const timerDisplay = document.getElementById("timer");
 const resetBtn = document.getElementById("reset");
 const startPauseBtn = document.getElementById("start-pause");
 const skipBtn = document.getElementById("skip");
 
 function updateTimer() {
-  if (!isRunning && seconds === 0) {
-    timerDisplay.textContent = "--:--";
-  } else {
-    const mins = Math.floor(seconds / 60).toString().padStart(2, "0");
-    const secs = (seconds % 60).toString().padStart(2, "0");
-    timerDisplay.textContent = `${mins}:${secs}`;
-  }
+  timerDisplay.textContent = `${String(Math.floor(seconds / 60)).padStart(2, "0")}:${String(seconds % 60).padStart(2, "0")}`;
 }
 
 function startTimer() {
   if (!isRunning) {
     isRunning = true;
-    startPauseBtn.textContent = "Pause ⏸️";
     hidePauseOverlay();
     timerInterval = setInterval(() => {
       seconds++;
       totalTime = seconds;
       updateTimer();
     }, 1000);
+
+    const pauseImg = startPauseBtn.querySelector("img");
+    if (pauseImg) pauseImg.src = "image/pause-button.png";
+    startPauseBtn.setAttribute("data-state", "pause");
   }
 }
 
 function pauseTimer() {
   if (isRunning) {
     isRunning = false;
-    startPauseBtn.textContent = "Lanjut ▶️";
     clearInterval(timerInterval);
     showPauseOverlay();
+    const playImg = startPauseBtn.querySelector("img");
+    if (playImg) playImg.src = "image/play.png";
+    startPauseBtn.setAttribute("data-state", "play");
   }
-}
-
-function resetTimer() {
-  clearInterval(timerInterval);
-  seconds = 0;
-  totalTime = 0;
-  isRunning = false;
-  startPauseBtn.textContent = "Mulai ▶️";
-  updateTimer();
 }
 
 function stopTimer() {
   clearInterval(timerInterval);
   isRunning = false;
-  startPauseBtn.textContent = "Selesai ✅";
+  startPauseBtn.textContent = "Selesai";
   startPauseBtn.disabled = true;
 }
-
-// =================== BUTTON EVENTS ===================
-startPauseBtn.addEventListener("click", () => {
-  if (!isRunning) {
-    startTimer();
-    unlockMap();
-  } else {
-    pauseTimer();
-    lockMap();
-  }
-});
-
-resetBtn.addEventListener("click", () => location.reload());
 updateTimer();
 
-// =================== START BUTTON (overlay manual) ===================
-const startBtn = document.getElementById("start-btn");
+startPauseBtn.addEventListener("click", () => (isRunning ? pauseTimer() : startTimer()));
+resetBtn.addEventListener("click", () => location.reload());
+
+// ===== START OVERLAY =====
+const startBtn = document.getElementById("startBtn");
 const startOverlayEl = document.getElementById("start-overlay");
+const playerNameInput = document.getElementById("player-name");
 
-startBtn.addEventListener("click", () => {
-  startOverlayEl.classList.add("hidden");
-  setTimeout(() => startOverlayEl.remove(), 800);
-  unlockMap();
-  startTimer();
-  map.invalidateSize();
-  bgMusic.play();
-});
+startBtn.addEventListener("click", startGame);
 
-// =================== LOAD GEOJSON ===================
+function startGame() {
+  playerName = playerNameInput.value.trim();
+  if (!playerName) {
+    alert("Isi nama dulu Boloo 😁");
+    return;
+  }
+
+  resetLeaderboardListener();
+  document.getElementById("summary-overlay").style.display = "none";
+
+  startOverlayEl.style.transition = "opacity 0.6s ease";
+  startOverlayEl.style.opacity = "0";
+  startOverlayEl.style.pointerEvents = "none";
+
+  setTimeout(() => {
+    startOverlayEl.style.display = "none";
+    startOverlayEl.remove();
+    unlockMap();
+    startTimer();
+    map.invalidateSize();
+    bgMusic.play();
+  }, 600);
+}
+
+// ===== LOAD GEOJSON =====
 fetch("/Kelurahan.geojson")
-  .then((res) => res.json())
+  .then((r) => r.json())
   .then((data) => {
     geojsonLayer = L.geoJSON(data, {
-      style: {
-        color: "#999999ff",
-        weight: 1,
-        fillColor: "#74b9ff",
-        fillOpacity: 0.3,
-      },
-      onEachFeature: (feature, layer) => {
-        const nama = feature.properties.WADMKD;
-        layer.on("click", () => handleClick(feature, layer));
-      },
+      style: { color: "#999", weight: 1, fillColor: "#74b9ff", fillOpacity: 0.3 },
+      onEachFeature: (feature, layer) => layer.on("click", () => handleClick(feature, layer)),
     }).addTo(map);
 
     kelurahanList = shuffle(
-      data.features
-        .map((f) => f.properties.WADMKD)
-        .filter((n) => n && n.trim() !== "")
+      data.features.map((f) => f.properties.WADMKD).filter((n) => n && n.trim() !== "")
     ).slice(0, 10);
 
     total = kelurahanList.length;
     nextQuestion();
   })
-  .catch((err) => console.error("Gagal ambil GeoJSON:", err));
+  .catch((err) => console.error(err));
 
-// =================== SHUFFLE ===================
-function shuffle(array) {
-  for (let i = array.length - 1; i > 0; i--) {
+// ===== SHUFFLE =====
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+    [arr[i], arr[j]] = [arr[j], arr[i]];
   }
-  return array;
+  return arr;
 }
 
-// =================== NEXT QUESTION ===================
+// ===== CURSOR =====
+const cursorQuestion = document.createElement("div");
+cursorQuestion.id = "cursor-question";
+document.body.appendChild(cursorQuestion);
+document.addEventListener("mousemove", (e) => {
+  cursorQuestion.style.left = e.pageX + 15 + "px";
+  cursorQuestion.style.top = e.pageY + 15 + "px";
+});
+
+// ===== NEXT QUESTION =====
 function nextQuestion() {
   const q = document.getElementById("question");
-
   if (kelurahanList.length === 0 && skippedList.length > 0) {
     kelurahanList = skippedList;
     skippedList = [];
-    showPopup("🔁 Mengulang pertanyaan yang dilewati!", "success");
+    showPopup("Mengulang pertanyaan yang dilewati!", "success");
   }
-
   if (kelurahanList.length === 0 && skippedList.length === 0) {
     endGame();
     return;
@@ -206,35 +193,27 @@ function nextQuestion() {
     q.classList.remove("fade-out");
     q.classList.add("fade-in");
   }, 300);
-
   cursorQuestion.innerText = `Klik: ${currentQuestion}`;
   cursorQuestion.style.display = interactionLocked ? "none" : "block";
 }
 
-// =================== SKIP BUTTON ===================
-skipBtn.addEventListener("click", () => {
-  if (interactionLocked || !currentQuestion) return;
-  skippedCount++;
-  skippedList.push(currentQuestion);
-  showPopup(`Lewatin dulu ${currentQuestion} 😅`, "info");
-  nextQuestion();
-});
-
-// =================== HANDLE CLICK ===================
+// ===== HANDLE CLICK =====
 function handleClick(feature, layer) {
   if (interactionLocked || layer._answered) return;
+
   const nama = feature.properties.WADMKD;
 
   if (nama === currentQuestion) {
     correctSound.currentTime = 0;
     correctSound.play();
-    layer.setStyle({ fillColor: "#00ff15ff", fillOpacity: 0.9 });
+    layer.setStyle({ fillColor: "#00ff15", fillOpacity: 0.9 });
     layer._answered = true;
+
     score++;
     correctAnswers++;
     answered++;
     updateProgress();
-    showPopup("Yeay benar!!", "success");
+    showPopup("Yeay benar!!!", "success");
     showAnimeCheer();
 
     if (!isRunning && seconds === 0) startTimer();
@@ -253,16 +232,51 @@ function handleClick(feature, layer) {
     wrongSound.currentTime = 0;
     wrongSound.play();
     layer.setStyle({ fillColor: "#e84118", fillOpacity: 0.8 });
-    showPopup("Salah Ker!!! 😩", "error");
+    showPopup("Salah Ker!!!", "error");
     setTimeout(() => {
-      if (!layer._answered) {
+      if (!layer._answered)
         layer.setStyle({ fillColor: "#74b9ff", fillOpacity: 0.3 });
-      }
     }, 700);
   }
 }
 
-// =================== UPDATE PROGRESS ===================
+// ===== SKIP =====
+skipBtn.addEventListener("click", () => {
+  if (interactionLocked || !currentQuestion) return;
+  skippedCount++;
+  skippedList.push(currentQuestion);
+  showPopup(`Lewatin dulu ${currentQuestion}`, "info");
+  nextQuestion();
+});
+
+// ===== POPUP =====
+function showPopup(message, type) {
+  const popup = document.createElement("div");
+  popup.className = `popup ${type}`;
+  popup.style.pointerEvents = "none";
+
+  let imgSrc = "";
+  if (type === "success") imgSrc = "image/lion-benar.png";
+  else if (type === "error") imgSrc = "image/lion-salah.png";
+  else if (type === "info") imgSrc = "image/lion-skip.png";
+
+  popup.innerHTML = `
+    <div class="popup-content">
+      <img src="${imgSrc}" class="popup-lion" alt="Lion Icon" />
+      <p>${message}</p>
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+  requestAnimationFrame(() => popup.classList.add("show"));
+  setTimeout(() => {
+    popup.classList.remove("show");
+    popup.classList.add("hide");
+    setTimeout(() => popup.remove(), 400);
+  }, 1600);
+}
+
+// ===== UPDATE PROGRESS =====
 function updateProgress() {
   const percent = Math.round((score / total) * 100);
   const p = document.getElementById("progress-text");
@@ -271,185 +285,162 @@ function updateProgress() {
   setTimeout(() => p.classList.remove("pulse"), 200);
 }
 
-// =================== END GAME ===================
+// ===== END GAME =====
 function endGame() {
+  if (gameEnded) return;
+  gameEnded = true;
   clearInterval(timerInterval);
   lockMap();
-  showPauseOverlay();
-
   const q = document.getElementById("question");
-  q.innerText = "🎉 Semua kelurahan sudah ditebak!";
+  q.innerText = "Semua kelurahan sudah ditebak!";
   q.style.color = "#27ae60";
   q.style.fontWeight = "bold";
-
-  ["start-pause", "reset", "skip"].forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.disabled = true;
-  });
-
+  ["start-pause", "reset", "skip"].forEach((id) => (document.getElementById(id).disabled = true));
   cursorQuestion.style.display = "none";
+  hidePauseOverlay(true);
   showSummary();
 }
 
-// ===================== SUMMARY SCREEN =====================
-function showSummary() {
+// ===== SUMMARY =====
+async function showSummary() {
+  if (summaryShown) return;
+  summaryShown = true;
+
   const overlay = document.getElementById("summary-overlay");
-  const correctEl = document.getElementById("summary-correct");
-  const skippedEl = document.getElementById("summary-skipped");
-  const timeEl = document.getElementById("summary-time");
-  const stars = document.querySelectorAll(".star");
-
-  correctEl.textContent = `✅ Benar: ${correctAnswers}`;
-  skippedEl.textContent = `💔 Lewati: ${skippedCount}`;
-  timeEl.textContent = `⏱ Waktu: ${formatTime(totalTime)}`;
-
-  const scoreRatio = correctAnswers / total;
-  const speedScore = totalTime / total;
-  let rating = 1;
-  if (scoreRatio >= 0.9 && speedScore <= 20) rating = 3;
-  else if (scoreRatio >= 0.7 && speedScore <= 35) rating = 2;
-
-  stars.forEach((s, i) => {
-    setTimeout(() => s.classList.toggle("active", i < rating), i * 200);
-  });
-
+  overlay.style.display = "flex";
   overlay.classList.add("show");
-  document.getElementById("map").style.pointerEvents = "none";
+
+  triggerVictoryConfetti();
+
+  const correctEl = document.getElementById("summary-correct");
+  const timeEl = document.getElementById("summary-time");
+  const skippedEl = document.getElementById("summary-skipped");
+  
+
+  const correct = correctAnswers || 0;
+  const timeUsed = totalTime || 0;
+  const skipped = skippedCount || 0;
+  
+
+  correctEl.innerHTML = `<img src="image/icon-correct.png" class="summary-icon"> Benar: ${correct}`;
+  timeEl.innerHTML = `<img src="image/icon-time.png" class="summary-icon"> Waktu: ${formatTime(timeUsed)}`;
+  skippedEl.innerHTML = `<img src="image/icon-skip.png" class="summary-icon"> Dilewati: ${skipped}`;
+  
+
+  if (playerName && !scoreSaved) {
+    await saveScore(playerName, timeUsed, correct);
+    scoreSaved = true;
+  }
+
+  // panggil leaderboard realtime
+  setTimeout(() => {
+    loadLeaderboardRealtime(updatePodium);
+  }, 800);
+
+  const { rank, total } = await getPlayerRank(playerName);
+
+  const rankEl = document.getElementById("player-rank-result");
+  rankEl.style.display = "block";
+  rankEl.textContent = rank
+    ? `🏅 Kamu peringkat ke-${rank} dari ${total} pemain`
+    : "❓ Belum terdaftar di leaderboard";
+  const restartBtn = document.getElementById("summary-restart");
+  overlay.querySelector(".summary-content").insertBefore(rankBox, restartBtn);
 }
 
+// ===== AUTO UPDATE PODIUM (FIX) =====
+function updatePodium(leaderboard = []) {
+  // pastiin leaderboard berupa array of object
+  if (!Array.isArray(leaderboard)) return;
+
+  // ambil top 3 (kalau kurang, isi dengan slot kosong)
+  const top3 = leaderboard.slice(0, 3);
+  const defaultNames = ["-", "-", "-"];
+
+  for (let i = 0; i < 3; i++) {
+    const player = top3[i];
+    const nameSlot = document.querySelector(`.podium-${i + 1} .podium-name`);
+
+    if (nameSlot) {
+      nameSlot.textContent = player?.name || defaultNames[i];
+    }
+  }
+}
+
+// ===== RESTART =====
 document.getElementById("summary-restart").addEventListener("click", () => {
   const overlay = document.getElementById("summary-overlay");
   overlay.classList.remove("show");
-
   setTimeout(() => {
     overlay.style.display = "none";
-    resetGame();
-    document.getElementById("map").style.pointerEvents = "auto";
-  }, 300);
+    location.reload();
+  }, 400);
 });
+
+// ===== PAUSE OVERLAY =====
+function showPauseOverlay() {
+  document.getElementById("pause-overlay").classList.add("active");
+  lockMap();
+}
+function hidePauseOverlay() {
+  document.getElementById("pause-overlay").classList.remove("active");
+  unlockMap();
+}
 
 function formatTime(sec) {
-  const mins = Math.floor(sec / 60).toString().padStart(2, "0");
-  const secs = (sec % 60).toString().padStart(2, "0");
-  return `${mins}:${secs}`;
+  return `${String(Math.floor(sec / 60)).padStart(2, "0")}:${String(sec % 60).padStart(2, "0")}`;
 }
+function showAnimeCheer() {}
 
-// =================== POPUP ===================
-function showPopup(text, type) {
-  const popup = document.createElement("div");
-  popup.className = `popup-message ${type}`;
-  popup.innerText = text;
-  document.body.appendChild(popup);
-  setTimeout(() => popup.classList.add("fade-out"), 600);
-  setTimeout(() => popup.remove(), 1000);
-}
+function triggerVictoryConfetti() {
+  const podium = document.querySelector(".podium-1");
+  if (!podium) return;
 
-// =================== CURSOR LABEL ===================
-const cursorQuestion = document.createElement("div");
-cursorQuestion.id = "cursor-question";
-document.body.appendChild(cursorQuestion);
+  const defaults = {
+    startVelocity: 20,
+    spread: 360,
+    ticks: 80,
+    zIndex: 9999
+  };
 
-document.addEventListener("mousemove", (e) => {
-  cursorQuestion.style.left = e.pageX + 15 + "px";
-  cursorQuestion.style.top = e.pageY + 15 + "px";
-});
+  let isRunning = true;
 
-// =================== ANIME CHEER ===================
-function showAnimeCheer() {
-  const overlay = document.createElement("div");
-  overlay.style = `
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: radial-gradient(circle, rgba(255,255,255,0.4) 0%, rgba(0,0,0,0.7) 100%);
-    z-index: 9998; opacity: 0;
-    transition: opacity 0.4s ease;
-  `;
-  document.body.appendChild(overlay);
+  function fireConfetti() {
+    if (!isRunning) return;
 
-  const img = document.createElement("img");
-  img.src = "https://media.tenor.com/zWj5pMHNIW8AAAAi/tiredamityyt-ever-night.gif";
-  img.style = `
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(0.8);
-    width: 400px; z-index: 9999;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    filter: drop-shadow(0 0 25px rgba(255,255,255,0.9));
-  `;
-  document.body.appendChild(img);
+    const podiumRect = podium.getBoundingClientRect();
 
-  setTimeout(() => {
-    overlay.style.opacity = "1";
-    img.style.opacity = "1";
-    img.style.transform = "translate(-50%, -50%) scale(1)";
-  }, 100);
+    confetti({
+      ...defaults,
+      particleCount: 8,
+      origin: {
+        x: (podiumRect.left + podiumRect.width / 2) / window.innerWidth,
+        y: (podiumRect.top - 80) / window.innerHeight
+      },
+      colors: ['#ffd700', '#ff5c5c', '#00ff7a', '#00b8ff']
+    });
 
-  setTimeout(() => {
-    overlay.style.opacity = "0";
-    img.style.opacity = "0";
-    img.style.transform = "translate(-50%, -50%) scale(0.9)";
-    setTimeout(() => {
-      overlay.remove();
-      img.remove();
-    }, 600);
-  }, 3000);
-}
-
-// =================== PAUSE OVERLAY ===================
-function showPauseOverlay() {
-  const overlay = document.getElementById("map-overlay");
-  overlay.classList.add("active");
-  document.getElementById("map").style.pointerEvents = "none";
-}
-
-function hidePauseOverlay() {
-  const overlay = document.getElementById("map-overlay");
-  overlay.classList.remove("active");
-  document.getElementById("map").style.pointerEvents = "auto";
-}
-
-function showResumeOverlay() {
-
-  setTimeout(() => overlay.classList.add("show"), 10);
-  setTimeout(() => overlay.classList.remove("show"), 1500);
-  setTimeout(() => overlay.remove(), 2000);
-}
-
-// =================== OVERLAY PAUSE ===================
-function showPauseOverlay() {
-  let overlay = document.getElementById("pause-overlay");
-  if (!overlay) {
-    overlay = document.createElement("div");
-    overlay.id = "pause-overlay";
-    overlay.textContent = "⏸️ PAUSED";
-    document.body.appendChild(overlay);
+    setTimeout(fireConfetti, 300);
   }
-  overlay.classList.add("show");
+
+  fireConfetti();
+
+  // update posisi confetti pas layar di-resize atau rotasi
+  window.addEventListener("resize", () => {
+    isRunning = false;
+    setTimeout(() => {
+      isRunning = true;
+      fireConfetti();
+    }, 300);
+  });
+
+  window.addEventListener("orientationchange", () => {
+    isRunning = false;
+    setTimeout(() => {
+      isRunning = true;
+      fireConfetti();
+    }, 500);
+  });
 }
 
-function hidePauseOverlay() {
-  const overlay = document.getElementById("pause-overlay");
-  if (overlay) overlay.classList.remove("show");
-}
 
-// Tambahin ke hidePauseOverlay biar muncul pas resume
-const originalHidePauseOverlay = hidePauseOverlay;
-hidePauseOverlay = function() {
-  originalHidePauseOverlay();
-  showResumeOverlay();
-};
-
-// =================== RESET GAME ===================
-function resetGame() {
-  score = 0;
-  correctAnswers = 0;
-  skippedCount = 0;
-  answered = 0;
-  seconds = 0;
-  totalTime = 0;
-  updateTimer();
-  location.reload();
-}

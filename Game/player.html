@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pemain - Tebak Kelurahan</title>
+  <link rel="stylesheet" href="game.css" />
+  <style>
+    body {
+      background-color: #f5faff;
+      font-family: "Poppins", sans-serif;
+      text-align: center;
+      padding: 30px;
+    }
+    .container {
+      background: white;
+      display: inline-block;
+      padding: 25px 40px;
+      border-radius: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    input {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎯 Gabung Room</h1>
+    <input id="playerName" type="text" placeholder="Masukkan nama kamu" />
+    <input id="roomCode" type="text" placeholder="Kode Room (misal: K3XZ)" maxlength="4" />
+    <button id="joinBtn">Join</button>
+
+    <p id="statusText" style="margin-top: 15px; color: gray;"></p>
+  </div>
+
+  <script type="module">
+    import { db } from "./firebase.js";
+    import { ref, get, update, onValue } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+
+    const joinBtn = document.getElementById("joinBtn");
+    const statusText = document.getElementById("statusText");
+
+    joinBtn.addEventListener("click", async () => {
+      const name = document.getElementById("playerName").value.trim();
+      const code = document.getElementById("roomCode").value.trim().toUpperCase();
+      if (!name || !code) {
+        alert("Isi nama dan kode room dulu ya!");
+        return;
+      }
+
+      const roomRef = ref(db, "rooms/" + code);
+      const snapshot = await get(roomRef);
+
+      if (!snapshot.exists()) {
+        statusText.textContent = "❌ Room tidak ditemukan!";
+        return;
+      }
+
+      const roomData = snapshot.val();
+      if (roomData.status !== "waiting") {
+        statusText.textContent = "🚫 Room sudah mulai!";
+        return;
+      }
+
+      // Tambahkan pemain ke room
+      await update(ref(db, `rooms/${code}/players/${name}`), { score: 0 });
+      statusText.textContent = "✅ Berhasil join! Tunggu host memulai game...";
+
+      // Dengerin status room
+      onValue(ref(db, `rooms/${code}/status`), (snap) => {
+        const status = snap.val();
+        if (status === "playing") {
+          // Redirect ke halaman game utama (index.html misalnya)
+          window.location.href = `index.html?room=${code}&name=${encodeURIComponent(name)}`;
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -5,15 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tebak Kelurahan Kota Malang ⚔️</title>
 
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="game.css" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 </head>
 
-<audio id="bg-music" src="sound/game sountrack.mp3" loop></audio>
-
 <body>
+  <audio id="bg-music" src="sound/game sountrack.mp3" loop></audio>
   <div class="game-background"></div>
 
   <div class="game-container">
@@ -25,40 +23,93 @@
 
     <main class="map-frame">
       <div id="map"></div>
+      
+      <!-- Overlay Pause -->
+      <div id="pause-overlay">
+        <img id="pause-lion" src="image/lion-pause.png" alt="Pause Lion" />
+        <h2 class="pause-text">PAUSED</h2>
+      </div>
     </main>
 
-    <!-- Overlay mulai -->
-    <div id="start-overlay">
-      <div class="start-content">
-        <img src="image/start-screen.png" alt="Start Screen" class="start-img">
-        <button id="start-btn" class="start-btn">Let's Goo!!</button>
-      </div>    
-    </div>
-
-    <footer class="footer"> 
-      <button id="reset">Ulangi 🔁</button>
-      <button id="start-pause">Mulai ▶️</button>
-      <button id="skip">Lewati😭💔</button>
+    <footer class="footer">
+      <button id="reset" class="icon-btn"><img src="image/replay.png" alt="Ulangi" /></button>
+      <button id="start-pause" class="icon-btn"><img src="image/pause-button.png" alt="Pause" /></button>
+      <button id="skip" class="icon-btn"><img src="image/next.png" alt="Lewati" /></button>
     </footer>
   </div>
 
-  <div id="summary-overlay">
-  <div class="summary-content">
-    <h2>🎉 Permainan Selesai!</h2>
-    <div class="rating" id="rating-stars">
-      <span class="star">⭐</span>
-      <span class="star">⭐</span>
-      <span class="star">⭐</span>
-    </div>
-    <p id="summary-correct">✅ Benar: 0</p>
-    <p id="summary-skipped">💔 Lewati: 0</p>
-    <p id="summary-time">⏱ Waktu: 00:00</p>
-    <button id="summary-restart">Main Lagi 🔁</button>
+  <!-- Start Overlay -->
+  <div id="start-overlay">
+    <div class="start-content">
+      <img src="image/start-screen.png" alt="Start Screen" class="start-img" />
+      <input type="text" id="player-name" class="name-input" placeholder="Enter your name" />
+      <button id="startBtn" class="start-btn"><img src="image/lion-lets-go.png" alt="Let's Go" /></button>
+    </div>    
   </div>
-</div>
 
-<!-- Home Button -->
-<a href="../index.html" class="btn-home" title="Kembali ke Portal">
+  <!-- Summary Overlay -->
+  <div id="summary-overlay" class="active">
+    <div class="summary-frame">
+      <!-- Frame PNG -->
+      <img src="image/leaderboard-frame.png" class="summary-frame-img" alt="Leaderboard Frame" />
+
+      <!-- ISI DALAM FRAME -->
+      <div class="summary-content">
+        
+        <!-- Podium -->
+        <div class="podium-container">
+          <img src="image/podium.png" alt="Podium" class="podium-image" />
+
+          <div class="podium-slot podium-1">
+            <img src="https://media.tenor.com/kZOATY6zAegAAAAi/mafuyu-asahina-mafuyu.gif" class="podium-character" alt="Juara 1" />
+            <div class="podium-name"></div>
+          </div>
+
+          <div class="podium-slot podium-2">
+            <img src="https://media.tenor.com/DZXEvM88SBwAAAAj/kaito-angry.gif" class="podium-character" alt="Juara 2" />
+            <div class="podium-name"></div>
+          </div>
+
+          <div class="podium-slot podium-3">
+            <img src="https://media.tenor.com/LhSiYD4O6XYAAAAi/airi-momoi.gif" class="podium-character" alt="Juara 3" />
+            <div class="podium-name"></div>
+          </div>
+        </div>
+
+        <h3>Top 10 Pemain Tercepat</h3>
+        <ul id="leaderboard-list" class="leaderboard"></ul>
+
+        <!-- Player Rank Box -->
+        <div class="player-rank-box">
+          <p id="player-rank-loading" class="loading-dots">Memuat peringkat kamu</p>
+          <p id="player-rank-result" style="display:none;">🏅 Kamu peringkat ke-X dari Y pemain</p>
+
+          <!-- Ringkasan skor di bawah peringkat -->
+          <div class="summary-stats">
+            <span id="summary-correct">Benar: 10</span>
+            <span id="summary-time">Waktu: 00:54</span>
+            <span id="summary-skipped">Dilewati: 0</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tombol di BAWAH FRAME -->
+      <button id="summary-restart" class="restart-btn">
+        <img src="image/main-lagi.png" alt="Main Lagi" width="120" />
+      </button>
+    </div>
+
+    <img src="image/drone.png" alt="Drone" class="drone-fly" />
+    <div class="drone-light">
+      <div class="spotlight1"></div>
+      <div class="spotlight2"></div>
+      <div class="spotlight3"></div>
+    </div>
+
+  </div>
+
+  <!-- Tombol Home -->
+  <a href="../index.html" class="btn-home" title="Kembali ke Portal">
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" width="22" height="22" fill="white">
       <path d="M280.4 148.3L96 300.1V464c0 8.8 7.2 16 16 16l112-.3c8.8 0 
                16-7.2 16-16V368c0-8.8 7.2-16 16-16h64c8.8 0 
@@ -75,6 +126,8 @@
     </svg>
   </a>
 
-  <script src="script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
