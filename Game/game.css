@@ -1089,8 +1089,8 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 
 /* Flicker */
 @keyframes lightPulse {
-  0%,100% { opacity: 0.7; scaleY(1); }
-  50%     { opacity: 0.9; scaleY(1.05); }
+  0%,100% { opacity: 0.7; transform: scaleY(1);}
+  50% { opacity: 0.9; transform: scaleY(1.05);}
 }
 
 /* Sweep kanan-kiri */
@@ -1163,6 +1163,43 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 @keyframes lightPulse {
   0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
   50% { opacity: 0.9; transform: translateX(-50%) scale(1.4); }
+}
+
+
+/* ===================== FIX TOMBOL SELALU HORIZONTAL ===================== */
+.footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 14px; /* jarak antar tombol */
+}
+
+/* Biar tombol nggak kegedean di HP */
+.footer .icon-btn img {
+  width: 48px;
+  height: auto;
+}
+
+/* HP Mode */
+@media (max-width: 600px) {
+  .footer {
+    gap: 10px;
+    padding: 6px 0;
+  }
+
+  .footer .icon-btn img {
+    width: 38px; /* tombelnya sedikit lebih kecil biar nggak turun baris */
+  }
+}
+
+@media (max-width: 600px) {
+  .map-frame {
+    height: calc(100vh - 200px); /* sisakan ruang buat header & footer */
+  }
+
+  #map {
+    height: 100%;
+  }
 }
 
 /* ===================== MOBILE RESPONSIVE ===================== */
@@ -1252,3 +1289,96 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   .popup-message { font-size:1.2rem; padding:12px 20px; border-radius:12px; }
   #map { height:calc(100vh - 240px); min-height:300px; border-radius:6px; }
 }
+
+/* ===================== RESPONSIVE TABLET ===================== */
+@media (max-width: 1024px) {
+
+  .game-container {
+    width: 95%;
+    height: calc(100vh - 10px);
+    border-width: 2px;
+  }
+
+  .header, .footer {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+  #level {
+    font-size: 0.8rem;
+    padding: 3px 8px;
+  }
+
+  .start-img {
+    width: 260px;
+  }
+
+  #map {
+    border-radius: 6px;
+  }
+}
+
+/* ===================== RESPONSIVE HP ===================== */
+@media (max-width: 600px) {
+
+  .game-container {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    border-radius: 0;
+    border-width: 2px;
+  }
+
+  .header, .footer {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    text-align: center;
+  }
+
+  #quest {
+    font-size: 0.9rem;
+  }
+
+  #level {
+    font-size: 0.75rem;
+    padding: 2px 6px;
+  }
+
+  button {
+    padding: 7px 14px;
+    font-size: 0.8rem;
+  }
+
+  .start-img {
+    width: 200px;
+  }
+
+  .name-input {
+    width: 80%;
+    font-size: 1rem;
+  }
+
+  .start-btn img {
+    width: 120px;
+  }
+
+  /* Summary pas selesai */
+  #summary-content {
+    width: 90%;
+  }
+
+  .summary-content h3 {
+    font-size: 0.85rem;
+  }
+
+  .summary-content p {
+    font-size: 0.85rem;
+  }
+
+  .podium-container {
+    transform: scale(0.8);
+    margin-top: 30px;
+  }
+}
+
