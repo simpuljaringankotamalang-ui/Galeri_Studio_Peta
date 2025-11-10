@@ -369,7 +369,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   justify-content: flex-start;
   overflow: hidden;
   padding-top: 70px;
-  margin-top: 195px;
+  margin-top: 20vh;
   gap: 0px;
   margin-left: auto;
   margin-right: auto;
@@ -1174,21 +1174,22 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 
 /* RESPONSIVE*/
 
-/*TABLET*/
+/*HP*/
 @media (max-width: 600px) {
 
   .summary-wrapper {
     width: 90vw;
     max-width: 320px;
-    margin-top: 10px;
+    margin-top: 2vh;
   }
 
   .summary-content {
-    margin-top: 300px !important;
-    margin-bottom: 50px !important;
+    margin-top: 33vh !important; /* INI KUNCI AGAR PAS DI SEMUA HP */
+    margin-bottom: 5vh !important;
     padding-top: 20px !important;
     width: 86%;
-    height: 86%;
+    height: auto !important; /* JANGAN FIX HEIGHT */
+    overflow: visible !important; /* Biar elemen tidak kepotong */
   }
 
   .podium-container {
@@ -1346,7 +1347,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 
   .summary-content {
-    margin-top: 120px !important;
+    margin-top: 0px !important;
     padding-top: 20px !important;
   }
 
@@ -1402,61 +1403,4 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 }
 
-/* LAPTOP / SCREEN 1024px - 1440px */
-@media (min-width: 1024px) and (max-width: 1440px) {
 
-  /* Biar keseluruhan tampilan naik sedikit */
-  .summary-wrapper {
-    margin-top: 40px !important;
-    transform: scale(0.92);
-    transform-origin: top center;
-  }
-
-  /* Leaderboard container lebih kecil & lebih ke atas */
-  .leaderboard {
-    width: 45% !important;
-    max-height: 170px !important;
-    margin-top: 8px !important;
-    padding: 6px 10px !important;
-    border-radius: 10px !important;
-  }
-
-  /* List font lebih kecil biar pas */
-  .leaderboard li {
-    font-size: 0.85rem !important;
-    padding: 4px 8px !important;
-    margin: 4px 0 !important;
-  }
-
-  /* Podium ngecil dikit biar ngga makan tinggi layar */
-  .podium-container {
-    transform: scale(0.9) translateY(-10px);
-    transform-origin: top center;
-  }
-
-  /* Summary rank text biar tidak turun ke bawah */
-  .player-rank-box {
-    margin-top: 10px !important;
-    font-size: 0.9rem !important;
-  }
-
-  /* Stats bawah disesuaikan */
-  .summary-stats {
-    font-size: 0.8rem !important;
-    margin-top: 8px !important;
-    margin-bottom: 16px !important;
-  }
-
-  /* Tombol restart biar pas di bawah */
-  .restart-btn {
-    bottom: -18px !important;
-    transform: translateX(-50%) scale(0.95) !important;
-  }
-
-  /* Tombol home kiri atas */
-  .btn-home {
-    top: 14px !important;
-    left: 14px !important;
-    transform: scale(0.95) !important;
-  }
-}
