@@ -11,7 +11,7 @@ body {
   max-width: 100vw;
 }
 
-/* Background */
+/*Background*/
 .game-background {
   position: fixed;
   inset: 0;
@@ -31,7 +31,7 @@ body {
   z-index: 0;
 }
 
-/* Frame utama */
+/*Frame utama*/
 .game-container {
   position: relative;
   z-index: 10;
@@ -49,7 +49,7 @@ body {
   overflow: hidden;
 }
 
-/* Header & Footer */
+/*Header & Footer*/
 .header,
 .footer {
   background: linear-gradient(180deg, #3a2b16, #201607);
@@ -67,7 +67,7 @@ body {
 .header { border-top: none; box-shadow: 0 3px 10px rgba(0,0,0,0.5); }
 .footer { flex-wrap: nowrap; justify-content: center; gap: 10px; }
 
-/* Header tambahan */
+/*Header tambahan*/
 #quest { color: #ffe382; text-shadow: 0 0 4px #000; }
 #level {
   font-size: 0.9rem;
@@ -79,7 +79,7 @@ body {
   box-shadow: inset 0 0 6px rgba(0,255,0,0.3);
 }
 
-/* Map Area */
+/*Map Area*/
 .map-frame {
   flex: 1;
   position: relative;
@@ -98,7 +98,7 @@ body {
   background: #e0e0e0;
 }
 
-/* Overlay */
+/*Overlay*/
 #map-overlay {
   position: absolute;
   inset: 0;
@@ -132,7 +132,7 @@ body {
 }
 @keyframes floatText { 0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);} }
 
-/* Button */
+/*Button*/
 button {
   background: linear-gradient(180deg, #ff3c00, #ffffff);
   border: 2px solid #00aeff;
@@ -175,7 +175,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 .btn-home:hover { background: linear-gradient(180deg, #fff176, #ffca28); transform: scale(1.12); box-shadow: 0 0 25px rgba(255,255,100,1); }
 .btn-home:active { transform: scale(0.95); box-shadow: 0 0 10px rgba(255,230,0,0.8); }
 
-/* Progress & Timer */
+/*Progress & Timer*/
 #progress-text { color:#ffe382; font-weight:bold; letter-spacing:0.5px; }
 
 #timer {
@@ -193,13 +193,13 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   transition: background 0.3s, transform 0.2s;
 }
 
-/* Saat update tiap detik biar halus dikit */
+/*Saat update tiap detik biar halus dikit*/
 .timer-flash {
   transform: scale(1.1);
   background: rgba(40, 30, 15, 1);
 }
 
-/* Cursor label */
+/*Cursor label*/
 #cursor-question {
   position: fixed;
   pointer-events: none;
@@ -214,7 +214,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   box-shadow: 0 2px 6px rgba(0,0,0,0.3);
 }
 
-/* Popup */
+/*Popup*/
 .popup-message {
   position: fixed;
   top: 50%;
@@ -231,7 +231,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   transition: opacity 0.4s ease;
 }
 
-/* POPUP dasar */
+/*POPUP dasar*/
 .popup {
   position: fixed;
   top: -150px; 
@@ -246,19 +246,19 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   opacity: 0;
 }
 
-/* Pas muncul */
+/*Pas muncul*/
 .popup.show {
   top: 60px; 
   opacity: 1;
 }
 
-/* Pas hilang */
+/*Pas hilang*/
 .popup.hide {
   top: -150px;
   opacity: 0;
 }
 
-/* Isi popup */
+/*Isi popup*/
 .popup-content {
   display: flex;
   align-items: center;
@@ -292,7 +292,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   animation: dropBounce 0.2s ease forwards;
 }
 
-/* ✨ Keyframes magic-nya */
+/*Keyframes magic*/
 @keyframes dropBounce {
   0% {
     top: -200px;
@@ -314,7 +314,6 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   }
 }
 
-/* 🪶 Lion-nya goyang lembut */
 @keyframes floatLion {
   0% { transform: translateY(0); }
   100% { transform: translateY(-5px); }
@@ -324,36 +323,59 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   position: fixed;
   inset: 0;
   display: flex;
-  justify-content: center;
+  justify-content: flex-start; 
   align-items: center;
   background: rgba(0, 0, 0, 0.6);
   z-index: 1000;
+  padding-top: px; 
 }
+
 
 #summary-overlay.active {
   visibility: visible;
   opacity: 1;
 }
 
+.summary-wrapper {
+  position: relative;
+  width: 90vw;
+  max-width: 420px;
+  aspect-ratio: 9 / 14;
+  margin: auto;
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .summary-frame-img {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
   pointer-events: none;
 }
 
-/* konten dalam frame */
-#summary-content {
+/*konten dalam frame*/
+.summary-content {
   position: absolute;
-  top: 0%;
-  left: none;
-  transform: translateX(-50%);
-  width: 80%;
+  inset: 0;
+  width: 82%;
+  height: 82%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;       
+  justify-content: flex-start;
+  overflow: hidden;
+  padding-top: 70px;
+  margin-top: 195px;
+  gap: 0px;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 }
+
 
 .summary-content h2 {
   font-size: 1.2rem;
@@ -361,8 +383,8 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 }
 
 .summary-content h3 {
-  margin-top: 120px;
-  margin-bottom: 4px;
+  margin-top: 0px;
+  margin-bottom: 15px;
   position: center;
   font-size: 1rem;
   font-weight: 700;
@@ -417,12 +439,6 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   z-index: 2;
 }
 
-.podium-character {
-  width: 40px;
-  height: auto;
-  object-fit: contain;
-  animation: podiumPop 0.8s ease-out forwards;
-}
 
 .podium-name {
   position: absolute;
@@ -499,7 +515,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* === START OVERLAY === */
+/*===START OVERLAY=== */
 #start-overlay {
   position: fixed;
   top: 0; left: 0;
@@ -518,7 +534,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   pointer-events: none;
 }
 
-/* === ANIMASI === */
+/*===ANIMASI=== */
 @keyframes goyangPelan {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
@@ -535,7 +551,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   75% { transform: scale(1.04) rotate(2deg); }
 }
 
-/* === ISI OVERLAY === */
+/*===ISI OVERLAY===*/
 .start-content {
   position: fixed; 
   top: 0;
@@ -553,16 +569,16 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   z-index: 9999; 
 }
 
-/* Gambar utama (maskot, karakter, dll) */
+/*Gambar utama (maskot, karakter, dll)*/
 .start-img {
   width: 350px;
-  max-width: 80%;
+  max-width: 50%;
   height: auto;
   animation: goyangPelan 2s ease-in-out infinite;
   transition: transform 0.3s;
 }
 
-/* Input nama */
+/*Input nama*/
 .name-input {
   padding: 12px 18px;
   font-size: 1.1rem;
@@ -573,7 +589,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   background: #fffdf5;
 }
 
-/* Tombol Let's Go pakai PNG */
+/*Tombol Let's Go pakai PNG*/
 .start-btn {
   background: none;
   border: none;
@@ -584,7 +600,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 }
 
 .start-btn img {
-  width: 140px;
+  width: 100px;
   height: auto;
   display: block;
   pointer-events: none;
@@ -596,7 +612,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 }
 
-/* efek bounce pas diklik */
+/*efek bounce pas diklik*/
 .start-btn:active img {
   transform: scale(0.9) rotate(-3deg);
   filter: drop-shadow(0 0 20px rgba(0, 255, 200, 0.8));
@@ -638,7 +654,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 }
 
 
-/* Animations */
+/*Animations*/
 @keyframes popIn { from{transform:scale(0.8);opacity:0;} to{transform:scale(1);opacity:1;} }
 @keyframes pulseGlow { 0%,100%{box-shadow:0 0 20px rgba(0,255,180,0.6); transform:scale(1);} 50%{box-shadow:0 0 35px rgba(0,255,255,0.9); transform:scale(1.08);} }
 @keyframes fadeInUp { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
@@ -648,11 +664,11 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 .player-rank-box {
   text-align: center;
   margin-top: 10px;
-  margin-bottom: 8px;
+  margin-bottom: -10px;
   color: #ff008c;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 10px;
-  padding: 5px 10px;
+  border-radius: 15px;
+  padding: 2px 4px;
   background: rgba(169, 252, 255, 0.479);
   box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
   font-family: quantico, sans-serif;
@@ -671,14 +687,15 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 .summary-stats {
   display: flex;             
   justify-content: center;    
-  gap: 90px;                  
-  margin-top: 0px; 
+  gap: 15px;                  
+  margin-top: 20px; 
   margin-bottom: 50px;         
   text-align: center;
   margin-bottom: 0px;
   color: #000000;
   font-family: quantico, sans-serif;
   font-style: normal;
+  font-size: 0.8rem;
   font-weight: 400;
 }
   
@@ -706,7 +723,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   100% { content: ""; }
 }
 
-/*Efek fade masuk urut */
+/*Efek fade masuk urut*/
 .fade-in-seq {
   opacity: 0;
   transform: translateY(10px);
@@ -720,7 +737,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 }
 
-/*Efek muncul lembut untuk tiap item leaderboard */
+/*Efek muncul lembut untuk tiap item leaderboard*/
 .leaderboard li {
   opacity: 0;
   transform: translateY(15px);
@@ -745,12 +762,12 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/*Transisi lembut di summary */
+/*Transisi lembut di summary*/
 .summary-content {
   animation: smoothPop 0.5s ease forwards;
 }
 
-/*Warna Top 3 Leaderboard */
+/*Warna Top 3 Leaderboard*/
 .leaderboard li.gold {
   color: #ffd700;
   font-weight: bold;
@@ -805,7 +822,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 }
 
-/* Warna medali */
+/*Warna medali*/
 .gold-medal circle {
   fill: #ffd700;
   filter: drop-shadow(0 0 6px #ffea70);
@@ -819,7 +836,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   filter: drop-shadow(0 0 6px #ffb07b);
 }
 
-/* Struktur baris leaderboard */
+/*Struktur baris leaderboard*/
 .player-entry {
   display: flex;
   align-items: center;
@@ -863,7 +880,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   z-index: 0;
 }
 
-/* Struktur baris leaderboard */
+/*Struktur baris leaderboard*/
 .player-entry {
   display: flex;
   align-items: center;
@@ -873,19 +890,22 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 
 /* === PODIUM FIXED STYLING (CLEAN & CENTERED) === */
 .podium-container {
+  width: 100%;
+  max-width: 300px;
+  margin: 0 auto;
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  margin: -1rem auto 0rem auto;
-  width: 360px;
-  height: 290px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  justify-items: center;
+  align-items: end;
+  transform: translateY(-8px);
 }
 
-/* podium base (gambar png utama) */
+
+/*podium base*/
 .podium-container .podium-image {
   position: absolute;
-  bottom: 0;
+  bottom: 1px;
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
@@ -895,45 +915,32 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   pointer-events: none;
 }
 
-/* slot karakter podium */
+/*slot karakter podium*/
 .podium-slot {
-  position: absolute;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
-  z-index: 2;
+  justify-content: flex-end;
 }
 
-/* posisi slot 1–2–3 (disesuaikan sama tinggi tingkat podium) */
-.podium-1 {
-  bottom: 95px;
-  left: 52%;
-  transform: translateX(-50%);
-}
-.podium-2 {
-  bottom: 75px;
-  left: calc(60% - 130px);
-  transform: translateX(-50%);
-}
-.podium-3 {
-  bottom: 56px;
-  left: calc(50% + 100px);
-  transform: translateX(-50%);
-}
+.podium-1 { margin-bottom: 60px; }
+.podium-2 { margin-bottom: 78px; }
+.podium-3 { margin-bottom: 45px; }
+
 
 /* karakter podium */
 .podium-character {
-  width: 85px;
+  width: 100px;
   height: auto;
   object-fit: contain;
   animation: podiumPop 0.8s ease-out forwards;
 }
 
-/* nama pemain di atas karakter */
+/*nama pemain di atas karakter*/
 .podium-name {
   position: absolute;
-  bottom: 100%; /* taruh di atas karakter */
+  bottom: 90%;
   left: 50%;
   transform: translateX(-50%) translateY(15px);
   font-size: 1rem;
@@ -959,14 +966,14 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 /* === LEADERBOARD CLEAN === */
 .leaderboard {
   list-style: none;
-  padding: 12px 16px;
-  margin: 12px auto 20px;
-  width: 90%;
+  padding: 7px 7px;
+  margin: 1px auto 1px;
+  width: 20%;
   max-width: none;
   max-height: 150px;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 0;
+  border-radius: 10px;
   box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   text-align: left;
   scrollbar-width: thin;
@@ -979,11 +986,11 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   justify-content: space-between;
   align-items: center;
   padding: 2px 6px;
-  margin-bottom: 4px;
-  border-radius: 8px;
+  margin-bottom: 3px;
+  border-radius: 10px;
   background: rgba(0, 0, 0, 0.25);
   color: #fff;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   transition: background 0.2s ease;
   font-family: quantico, sans-serif;
 }
@@ -992,7 +999,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   background: rgba(255, 255, 255, 0.18);
 }
 
-/* Scroll bar lembut */
+/*Scroll bar lembut*/
 .leaderboard::-webkit-scrollbar {
   width: 6px;
 }
@@ -1001,7 +1008,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   border-radius: 6px;
 }
 
-/* Efek muncul lembut */
+/*Efek muncul lembut*/
 .leaderboard li {
   opacity: 0;
   transform: translateY(15px);
@@ -1035,7 +1042,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 5; /* cukup buat nutup map, tapi gak nutup tombol/header */
+  z-index: 5;
   backdrop-filter: blur(3px);
   opacity: 0;
   transition: opacity 0.3s ease;
@@ -1110,11 +1117,11 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   100% { transform: rotate(-5deg); }
 }
 
-/* Container Drone-light */
+/*Container Drone-light*/
 .drone-light {
   position: absolute;
-  top: 26%;       /* sama seperti drone */
-  left: 50%;      /* sama seperti drone */
+  top: 26%;       
+  left: 50%;      
   width: 20px;
   height: 150px;
   transform: translateX(-50%);
@@ -1125,7 +1132,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
              droneMove 10s ease-in-out infinite alternate;
 }
 
-/* Sorot 1 */
+/*Sorot 1*/
 .drone-light .spotlight1,
 .drone-light .spotlight2,
 .drone-light .spotlight3 {
@@ -1141,244 +1148,256 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
              droneMove 10s ease-in-out infinite alternate;
 }
 
-/* Animasi sweep masing-masing sorot */
+/*Animasi sweep masing-masing sorot*/
 .drone-light .spotlight1 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep1 4s ease-in-out infinite; }
 .drone-light .spotlight2 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep2 5s ease-in-out infinite; }
 .drone-light .spotlight3 { animation: rgbPulse 4s linear infinite, lightPulse 0.8s ease-in-out infinite, spotlightSweep3 6s ease-in-out infinite; }
 
 
-/* 🌫️ Naik-turun */
+/*Naik-turun */
 @keyframes droneFloat {
   0% { transform: translate(-50%, 0); }
   100% { transform: translate(-50%, -20px); }
 }
 
-/* ↔️ Kiri-kanan */
+/*Kiri-kanan*/
 @keyframes droneMove {
   0% { left: 35%; }
   100% { left: 65%; }
 }
 
-/* ✨ Lampu kedip halus */
+/*Lampu kedip halus */
 @keyframes lightPulse {
   0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(1); }
   50% { opacity: 0.9; transform: translateX(-50%) scale(1.4); }
 }
 
+/* RESPONSIVE*/
 
-/* ===================== FIX TOMBOL SELALU HORIZONTAL ===================== */
-.footer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 14px; /* jarak antar tombol */
-}
-
-/* Biar tombol nggak kegedean di HP */
-.footer .icon-btn img {
-  width: 48px;
-  height: auto;
-}
-
-/* HP Mode */
-@media (max-width: 600px) {
-  .footer {
-    gap: 10px;
-    padding: 6px 0;
-  }
-
-  .footer .icon-btn img {
-    width: 38px; /* tombelnya sedikit lebih kecil biar nggak turun baris */
-  }
-}
-
-@media (max-width: 600px) {
-  .map-frame {
-    height: calc(100vh - 200px); /* sisakan ruang buat header & footer */
-  }
-
-  #map {
-    height: 100%;
-  }
-}
-
-/* ===================== MOBILE RESPONSIVE ===================== */
-
-/* Tablet & small desktop */
-@media (max-width:1024px){
-  .game-container {
-    width:95%;
-    height:85vh;
-    border-width:4px;
-    padding:10px;
-  }
-  .header,.footer {
-    flex-direction:column;
-    gap:8px;
-    font-size:0.95rem;
-    text-align:center;
-  }
-  .header #level, .header #quest { font-size:0.85rem; }
-  button { padding:8px 14px; font-size:0.9rem; }
-  #map { min-height:400px; }
-  .podium-container { width:300px; height:240px; }
-  .podium-character { width:70px; }
-  .start-img { width:280px; }
-  .start-btn img { width:120px; }
-  .summary-content { width:85%; padding:1rem; }
-  .summary-content h2 { font-size:1.3rem; }
-  .summary-content p { font-size:0.95rem; }
-  .leaderboard { max-height:120px; }
-}
-
-/* Small devices (phones) */
-@media (max-width:768px){
-  body { overflow:auto; }
-  .game-container {
-    width:95%;
-    height:auto;
-    margin-top:20px;
-    min-height:80vh;
-    border-width:3px;
-    box-shadow:0 0 25px rgba(0,0,0,0.6);
-  }
-  .header,.footer {
-    flex-direction:column;
-    font-size:0.9rem;
-    gap:10px;
-    padding:8px;
-  }
-  #map {
-    width:100%;
-    height:calc(100vh - 260px);
-    min-height:350px;
-    border-radius:8px;
-  }
-  .start-img { width:220px; }
-  .start-btn img { width:140px; }
-  .summary-content { width:90%; padding:1.5rem; border-radius:16px; }
-  .summary-content h2 { font-size:1.4rem; }
-  .summary-content p { font-size:1rem; }
-  .rating .star { font-size:26px; }
-  .podium-container { width:320px; height:260px; }
-  .podium-character { width:75px; }
-  .leaderboard { max-height:130px; }
-  .popup-message { font-size:1.3rem; padding:14px 22px; }
-}
-
-/* Extra small devices (phones portrait) */
-@media (max-width:480px){
-  .game-container {
-    width:100%;
-    height:auto;
-    border-radius:10px;
-    border-width:2px;
-    position:relative;
-  }
-  .header,.footer { font-size:0.85rem; padding:6px; }
-  .header #level,#quest { font-size:0.8rem; }
-  button,.start-btn img { font-size:1rem; padding:10px 18px; min-width:120px; border-radius:10px; }
-  .start-img { width:180px; }
-  .summary-content { min-width:260px; padding:1rem; }
-  .summary-content h2 { font-size:1.2rem; }
-  .summary-content p { font-size:0.95rem; }
-  .rating .star { font-size:22px; }
-  .podium-container { width:260px; height:220px; }
-  .podium-character { width:65px; }
-  .leaderboard { max-height:110px; }
-  .popup-message { font-size:1.2rem; padding:12px 20px; border-radius:12px; }
-  #map { height:calc(100vh - 240px); min-height:300px; border-radius:6px; }
-}
-
-/* ===================== RESPONSIVE TABLET ===================== */
-@media (max-width: 1024px) {
-
-  .game-container {
-    width: 95%;
-    height: calc(100vh - 10px);
-    border-width: 2px;
-  }
-
-  .header, .footer {
-    padding: 8px 14px;
-    font-size: 0.9rem;
-  }
-
-  #level {
-    font-size: 0.8rem;
-    padding: 3px 8px;
-  }
-
-  .start-img {
-    width: 260px;
-  }
-
-  #map {
-    border-radius: 6px;
-  }
-}
-
-/* ===================== RESPONSIVE HP ===================== */
+/*TABLET*/
 @media (max-width: 600px) {
 
-  .game-container {
-    width: 100%;
-    height: 100vh;
-    margin: 0;
-    border-radius: 0;
-    border-width: 2px;
+  .summary-wrapper {
+    width: 90vw;
+    max-width: 320px;
+    margin-top: 10px;
   }
 
-  .header, .footer {
-    padding: 6px 10px;
-    font-size: 0.8rem;
-    flex-wrap: wrap;
-    text-align: center;
-  }
-
-  #quest {
-    font-size: 0.9rem;
-  }
-
-  #level {
-    font-size: 0.75rem;
-    padding: 2px 6px;
-  }
-
-  button {
-    padding: 7px 14px;
-    font-size: 0.8rem;
-  }
-
-  .start-img {
-    width: 200px;
-  }
-
-  .name-input {
-    width: 80%;
-    font-size: 1rem;
-  }
-
-  .start-btn img {
-    width: 120px;
-  }
-
-  /* Summary pas selesai */
-  #summary-content {
-    width: 90%;
-  }
-
-  .summary-content h3 {
-    font-size: 0.85rem;
-  }
-
-  .summary-content p {
-    font-size: 0.85rem;
+  .summary-content {
+    margin-top: 300px !important;
+    margin-bottom: 50px !important;
+    padding-top: 20px !important;
+    width: 86%;
+    height: 86%;
   }
 
   .podium-container {
-    transform: scale(0.8);
-    margin-top: 30px;
+    max-width: 220px;
+    margin-bottom: 10px !important;
+    transform: translateY(-6px) !important;
+  }
+
+  .podium-image { max-width: 240px !important; }
+  .podium-character { width: 55px !important; }
+
+  .podium-1 { margin-bottom: 46px !important; }
+  .podium-2 { margin-bottom: 58px !important; }
+  .podium-3 { margin-bottom: 36px !important; }
+
+  .podium-name {
+    font-size: 0.75rem !important;
+    transform: translateX(-50%) translateY(8px) !important;
+  }
+
+  .summary-content h2 { font-size: 0.95rem !important; margin-top: 4px !important; }
+  .summary-content h3 { font-size: 0.8rem !important; margin-top: -10px !important; margin-bottom: 7px !important; }
+  .summary-content p { font-size: 0.75rem !important; margin: 2px 0 !important; }
+
+  .leaderboard {
+    width: 65% !important;
+    max-height: 100px !important;
+    padding: 1px 3px;
+    border-radius: 5px;
+  }
+
+  .leaderboard li {
+    font-size: 0.7rem !important;
+    padding: 2px 4px !important;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 10px !important;
+  }
+
+  .leaderboard li img,
+  .medal-icon,
+  .top3-entry img {
+    width: 10px !important;
+    height: 10px !important;
+  }
+
+  .player-rank-box {
+    font-size: 0.75rem !important;
+    margin-top: 15px !important;
+    margin-bottom: 4px !important;
+    padding: 1px 3px !important;
+    border-radius: 5px !important;
+  }
+
+  .summary-stats {
+    font-size: 0.65rem !important;
+    gap: 7px !important;
+    margin-top: 6px !important;
+    margin-bottom: 10px !important;
+  }
+
+  .stat-icon,
+  .summary-icon {
+    width: 16px !important;
+    height: 16px !important;
+    margin-right: 3px !important;
+  }
+
+  .restart-btn {
+    top: 500px;
+    bottom: -100px !important;
+    transform: translateX(-50%) scale(0.9) !important;
+  }
+
+  .btn-home {
+    top: 0px !important;
+    left: -3px !important;
+    padding: 4px 8px !important;
+    font-size: 0.65rem !important;
+    border-radius: 6px !important;
+    box-shadow: 0 0 4px rgba(255,255,100,0.5) !important;
+    transform: scale(0.85) !important;
   }
 }
 
+/*TABLET*/
+@media (min-width: 600px) and (max-width: 1024px) {
+
+  .summary-wrapper {
+    width: 75vw;
+    max-width: 500px;
+    margin-top: 90px;
+  }
+
+  .summary-content {
+    margin-top: 180px;
+    padding-top: 25px;
+  }
+
+  .podium-container {
+    max-width: 260px;
+    transform: translateY(-10px);
+  }
+
+  .podium-image { max-width: 300px; }
+  .podium-character { width: 80px; }
+
+  .podium-1 { margin-bottom: 65px; }
+  .podium-2 { margin-bottom: 78px; }
+  .podium-3 { margin-bottom: 50px; }
+
+  .podium-name { font-size: 0.9rem; }
+
+  .leaderboard {
+    width: 60%;
+    max-height: 140px;
+  }
+
+  .leaderboard li { font-size: 0.82rem; }
+  .leaderboard li img { width: 18px; height: 18px; }
+
+  .player-rank-box { font-size: 0.85rem; }
+  .summary-stats { font-size: 0.75rem; gap: 9px; }
+
+  .stat-icon, .summary-icon {
+    width: 20px;
+    height: 20px;
+  }
+
+  .restart-btn {
+    bottom: -28px !important;
+    transform: translateX(-50%) scale(0.92) !important;
+  }
+
+  .btn-home {
+    top: 12px;
+    left: 12px;
+    padding: 7px 11px;
+    font-size: 0.85rem;
+    transform: scale(0.9);
+  }
+}
+
+@media (min-width: 1024px) {
+  /* Default styles apply — no override needed */
+}
+
+/*HP Landscape*/
+@media (max-width: 900px) and (orientation: landscape) {
+
+  .summary-wrapper {
+    width: 75vw;
+    max-width: 450px;
+    margin-top: 40px;
+  }
+
+  .summary-content {
+    margin-top: 120px !important;
+    padding-top: 20px !important;
+  }
+
+  .podium-container {
+    max-width: 240px;
+    transform: translateY(-8px);
+  }
+
+  .podium-character {
+    width: 70px !important;
+  }
+
+  .podium-name {
+    font-size: 0.85rem !important;
+    transform: translateX(-50%) translateY(10px) !important;
+  }
+
+  .leaderboard {
+    width: 55% !important;
+    max-height: 130px !important;
+    margin-top: 10px;
+  }
+
+  .leaderboard li {
+    font-size: 0.8rem !important;
+    padding: 3px 6px !important;
+  }
+
+  .player-rank-box {
+    font-size: 0.85rem !important;
+    padding: 3px 8px !important;
+    margin-top: 10px !important;
+  }
+
+  .summary-stats {
+    font-size: 0.75rem !important;
+    gap: 8px !important;
+    margin-top: 10px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .restart-btn {
+    bottom: -22px !important;
+    transform: translateX(-50%) scale(0.9) !important;
+  }
+
+  .btn-home {
+    top: 6px !important;
+    left: 6px !important;
+    padding: 6px 10px !important;
+    font-size: 0.75rem !important;
+    transform: scale(0.9) !important;
+  }
+}

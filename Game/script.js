@@ -409,13 +409,14 @@ function triggerVictoryConfetti() {
     if (!isRunning) return;
 
     const podiumRect = podium.getBoundingClientRect();
+    const characterHeight = podiumRect.height;
 
     confetti({
       ...defaults,
       particleCount: 8,
       origin: {
-        x: (podiumRect.left + podiumRect.width / 2) / window.innerWidth,
-        y: (podiumRect.top - 80) / window.innerHeight
+        x: (podiumRect.left + window.scrollX + podiumRect.width / 0.65) / document.documentElement.clientWidth,
+        y: (podiumRect.top + window.scrollY - characterHeight * 0.40) / document.documentElement.clientHeight
       },
       colors: ['#ffd700', '#ff5c5c', '#00ff7a', '#00b8ff']
     });
