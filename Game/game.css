@@ -368,8 +368,8 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   align-items: center;       
   justify-content: flex-start;
   overflow: hidden;
-  padding-top: 70px;
-  margin-top: 20vh;
+  padding-top: 1px;
+  margin-top: 28vh;
   gap: 0px;
   margin-left: auto;
   margin-right: auto;
@@ -378,29 +378,20 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 
 
 .summary-content h2 {
-  font-size: 1.2rem;
+  font-size: 0.6rem;
   margin: 0.4rem 0;
 }
 
 .summary-content h3 {
   margin-top: 0px;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   position: center;
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.7rem;
+  font-weight: 300;
   color: #d9ff00;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
   text-align: center;
   font-family: quantico, sans-serif;
-}
-
-.summary-content p {
-  margin: 0.5rem 0;
-}
-
-.summary-content h3 {
-  font-size: 1rem;
-  margin-top: 0.6rem;
 }
 
 /* tombol main lagi */
@@ -417,13 +408,13 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 
 /* === Teks & ikon === */
 .summary-content p {
-  font-size: 1rem;
-  margin: 4px 0;
+  font-size: 0.6rem;
+  margin: 0px 0;
 }
 
 .summary-icon {
-  width: 28px;
-  height: 28px;
+  width: 15px;
+  height: 15px;
   vertical-align: middle;
   margin-right: 8px;
   object-fit: contain;
@@ -481,7 +472,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 .restart-btn {
   position: absolute;
   bottom: -40px;
-  left: 49.5%;
+  left: 93%;
   transform: translateX(-50%);
   background: none;
   border: none;
@@ -571,19 +562,41 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 
 /*Gambar utama (maskot, karakter, dll)*/
 .start-img {
-  width: 350px;
+  width: 120px;
   max-width: 50%;
+  margin-top: 120px;
+  margin-bottom: -90px;
   height: auto;
-  animation: goyangPelan 2s ease-in-out infinite;
+  animation: vibe 5.5s linear infinite,
+             softGlow 2.5s ease-in-out infinite;
   transition: transform 0.3s;
+}
+
+/* Goyangan halus */
+@keyframes vibe {
+  0%   { transform: translateX(800%); }
+  100% { transform: translateX(-800%); }
+}
+
+/* Glow tipis elegan */
+@keyframes softGlow {
+  0% {
+    filter: drop-shadow(0 0 6px rgba(0, 180, 220, 0.35));
+  }
+  50% {
+    filter: drop-shadow(0 0 12px rgba(0, 180, 220, 0.65));
+  }
+  100% {
+    filter: drop-shadow(0 0 6px rgba(0, 180, 220, 0.35));
+  }
 }
 
 /*Input nama*/
 .name-input {
-  padding: 12px 18px;
-  font-size: 1.1rem;
-  border-radius: 12px;
-  border: 2px solid #ffc107;
+  padding: 10px 70px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 2px solid #d19e2e;
   text-align: center;
   outline: none;
   background: #fffdf5;
@@ -596,7 +609,6 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   padding: 0;
   cursor: pointer;
   transition: transform 0.3s ease;
-  animation: goyangTombol 2.5s ease-in-out infinite;
 }
 
 .start-btn img {
@@ -663,11 +675,11 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 /*Styling teks peringkat pemain*/
 .player-rank-box {
   text-align: center;
-  margin-top: 10vh;
-  margin-bottom: -10px;
+  margin-top: 1vh;
+  margin-bottom: 1px;
   color: #ff008c;
   border: 2px solid rgba(255, 255, 255, 0.4);
-  border-radius: 15px;
+  border-radius: 1px;
   padding: 2px 4px;
   background: rgba(169, 252, 255, 0.479);
   box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
@@ -687,21 +699,28 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 .summary-stats {
   display: flex;             
   justify-content: center;    
-  gap: 15px;                  
-  margin-top: 20px; 
+  gap: 5px;                  
+  margin-top: 1vh; 
   margin-bottom: 50px;         
   text-align: center;
   margin-bottom: 0px;
   color: #000000;
   font-family: quantico, sans-serif;
   font-style: normal;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   font-weight: 400;
 }
+
+.stat-icon,
+  .summary-icon {
+    width: 14px;
+    height: 14px; 
+    margin-right: 3px; 
+  }
   
 .loading-dots {
   color: #000000;
-  font-size: 1rem;
+  font-size: 0.6rem;
   letter-spacing: 0.5px;
   display: inline-block;
   position: relative;
@@ -845,14 +864,21 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 }
 
 .medal-icon {
-  width: 28px;
-  height: 28px;
+  width: 15px;
+  height: 15px;
   vertical-align: middle;
   margin-right: 8px;
   object-fit: contain;
   filter: drop-shadow(0 1px 2px rgba(0,0,0,0.3));
   animation: swing 2.4s ease-in-out infinite;
 }
+
+.leaderboard li img,
+.medal-icon,
+.top3-entry img {
+    width: 15px !important;
+    height: 15px !important;
+  }
 
 @keyframes swing {
   0%, 100% { transform: rotate(0deg); }
@@ -891,7 +917,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 /* === PODIUM FIXED STYLING (CLEAN & CENTERED) === */
 .podium-container {
   width: 100%;
-  max-width: 300px;
+  max-width: 180px;
   margin: 0 auto;
   position: relative;
   display: grid;
@@ -924,14 +950,14 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   justify-content: flex-end;
 }
 
-.podium-1 { margin-bottom: 60px; }
-.podium-2 { margin-bottom: 78px; }
-.podium-3 { margin-bottom: 45px; }
+.podium-1 { margin-bottom: 35px; left: 10px; }
+.podium-2 { margin-bottom: 45px; left: -5px; }
+.podium-3 { margin-bottom: 25px; left: -20px; }
 
 
 /* karakter podium */
 .podium-character {
-  width: 100px;
+  width: 65px;
   height: auto;
   object-fit: contain;
   animation: podiumPop 0.8s ease-out forwards;
@@ -940,10 +966,10 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 /*nama pemain di atas karakter*/
 .podium-name {
   position: absolute;
-  bottom: 90%;
+  bottom: 100%;
   left: 50%;
   transform: translateX(-50%) translateY(15px);
-  font-size: 1rem;
+  font-size: 0.6rem;
   font-weight: 700;
   color: #fff;
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
@@ -966,14 +992,14 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 /* === LEADERBOARD CLEAN === */
 .leaderboard {
   list-style: none;
-  padding: 7px 7px;
+  padding: 5px 5px;
   margin: 1px auto 1px;
-  width: 20%;
+  width: 23%;
   max-width: none;
-  max-height: 150px;
+  max-height: 100px;
   overflow-y: auto;
   background: rgba(255, 255, 255, 0.12);
-  border-radius: 10px;
+  border-radius: 3px;
   box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
   text-align: left;
   scrollbar-width: thin;
@@ -990,7 +1016,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.25);
   color: #fff;
-  font-size: 0.75rem;
+  font-size: 0.6rem;
   transition: background 0.2s ease;
   font-family: quantico, sans-serif;
 }
