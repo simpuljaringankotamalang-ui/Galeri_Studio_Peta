@@ -8,14 +8,87 @@ import {
   getDocs,
   onSnapshot,
   serverTimestamp,
+  where,
+  deleteDoc,
+  doc,
+  getDoc,
+  setDoc
 } from "https://www.gstatic.com/firebasejs/12.4.0/firebase-firestore.js";
 
 let unsubscribe = null;
 let leaderboardInitiated = false;
 
 const leaderboardRef = collection(db, "leaderboard");
+const EXPIRE_TIME_MS = 5 * 60 * 1000; // 5 menit
 
-//Simpan skor ke Firestore (update kalau lebih cepat)
+/* =====================================================
+    SISTEM RESERVASI NAMA (ANTI DOBEL + AUTO EXPIRE)
+===================================================== */
+export async function reservePlayerName(name) {
+  try {
+    const cleanName = name.trim().toLowerCase();
+    const playerRef = doc(db, "activePlayers", cleanName);
+    const docSnap = await getDoc(playerRef);
+
+    // ====== 1️⃣ CEK di leaderboard (sudah pernah main)
+    const leaderboardQuery = query(
+      collection(db, "leaderboard"),
+      where("name", "==", name)
+    );
+    const leaderboardSnap = await getDocs(leaderboardQuery);
+    if (!leaderboardSnap.empty) {
+      console.warn(`🚫 Nama "${name}" sudah pernah main, ganti nama lain.`);
+      return false;
+    }
+
+    // ====== 2️⃣ CEK di activePlayers (lagi main)
+    if (docSnap.exists()) {
+      const data = docSnap.data();
+      const started = data.startTime?.toMillis?.() || 0;
+      const elapsed = Date.now() - started;
+
+      if (elapsed < EXPIRE_TIME_MS) {
+        console.warn(`🚫 Nama "${name}" masih aktif (${Math.round(elapsed / 1000)} detik lalu).`);
+        return false;
+      }
+
+      // kalau expired, hapus dokumen lama
+      await deleteDoc(playerRef);
+      console.log(`🧹 Nama "${name}" expired, dihapus otomatis.`);
+    }
+
+    // kalau aman → simpan reservasi baru
+    await setDoc(playerRef, {
+      name,
+      status: "playing",
+      startTime: serverTimestamp(),
+    });
+
+    console.log(`✅ Nama "${name}" berhasil direservasi`);
+    return true;
+  } catch (e) {
+    console.error("❌ Gagal reserve nama:", e);
+    return false;
+  }
+}
+
+/* =====================================================
+    LEPAS NAMA SAAT SELESAI / KELUAR GAME
+===================================================== */
+export async function releasePlayerName(name) {
+  try {
+    const cleanName = name.trim().toLowerCase();
+    const playerRef = doc(db, "activePlayers", cleanName);
+    await deleteDoc(playerRef);
+    console.log(`🧹 Nama "${name}" dilepas kembali`);
+  } catch (e) {
+    console.error("Gagal hapus reservasi nama:", e);
+  }
+}
+
+/* =====================================================
+    SIMPAN SKOR KE LEADERBOARD
+===================================================== */
 export async function saveScore(name, time, correct) {
   try {
     const snapshot = await getDocs(query(leaderboardRef, orderBy("time", "asc")));
@@ -27,7 +100,6 @@ export async function saveScore(name, time, correct) {
       }
     });
 
-    //Kalau udah ada tapi waktu baru lebih cepat → update
     if (existingDoc) {
       const oldTime = existingDoc.data().time;
       if (time < oldTime) {
@@ -51,7 +123,9 @@ export async function saveScore(name, time, correct) {
   }
 }
 
-//Load leaderboard realtime
+/* =====================================================
+    LOAD LEADERBOARD REALTIME
+===================================================== */
 export function loadLeaderboardRealtime(updatePodiumCallback) {
   const list = document.getElementById("leaderboard-list");
   if (!list) return;
@@ -110,7 +184,6 @@ export function loadLeaderboardRealtime(updatePodiumCallback) {
         spawnConfetti(list.parentElement);
       }
 
-      //kirim data ke callback podium
       if (typeof updatePodiumCallback === "function") {
         updatePodiumCallback(leaderboardData);
       }
@@ -122,32 +195,48 @@ export function loadLeaderboardRealtime(updatePodiumCallback) {
   );
 }
 
-// Icon medali pakai gambar PNG custom
-function createMedalIcon(type) {
-  let medalSrc = "";
+/* =====================================================
+    AMBIL RANK PEMAIN
+===================================================== */
+export function watchPlayerRank(name, callback) {
+  const qAll = query(leaderboardRef, orderBy("time", "asc"));
+  unsubscribe = onSnapshot(qAll, (snapshot) => {
+    const allPlayers = snapshot.docs.map((doc) => doc.data());
+    const index = allPlayers.findIndex(
+      (p) => p.name.toLowerCase() === name.toLowerCase()
+    );
+    const rank = index >= 0 ? index + 1 : null;
+    const total = allPlayers.length;
 
-  switch (type) {
-    case "gold":
-      medalSrc = "image/medal-gold.png";
-      break;
-    case "silver":
-      medalSrc = "image/medal-silver.png";
-      break;
-    case "bronze":
-      medalSrc = "image/medal-bronze.png";
-      break;
-    default:
-      medalSrc = "image/medal-gold.png";
-  }
-
-  return `
-    <img src="${medalSrc}" 
-         alt="${type} medal" 
-         class="medal-icon ${type}" />
-  `;
+    if (typeof callback === "function") {
+      callback({ rank, total });
+    }
+  });
 }
 
-//Confetti warna pastel
+/* =====================================================
+    RESET LISTENER
+===================================================== */
+export function resetLeaderboardListener() {
+  if (unsubscribe) {
+    unsubscribe();
+    unsubscribe = null;
+  }
+  leaderboardInitiated = false;
+}
+
+/* =====================================================
+    UTILITAS TAMBAHAN
+===================================================== */
+function createMedalIcon(type) {
+  const srcMap = {
+    gold: "image/medal-gold.png",
+    silver: "image/medal-silver.png",
+    bronze: "image/medal-bronze.png",
+  };
+  return `<img src="${srcMap[type] || srcMap.gold}" alt="${type} medal" class="medal-icon ${type}" />`;
+}
+
 function spawnConfetti(container) {
   if (!container) return;
   for (let i = 0; i < 12; i++) {
@@ -160,29 +249,6 @@ function spawnConfetti(container) {
   }
 }
 
-//Ambil rank pemain
-export async function getPlayerRank(name) {
-  const qAll = query(leaderboardRef, orderBy("time", "asc"));
-  const snapshot = await getDocs(qAll);
-  const allPlayers = snapshot.docs.map((doc) => doc.data());
-  const index = allPlayers.findIndex(
-    (p) => p.name.toLowerCase() === name.toLowerCase()
-  );
-  const rank = index >= 0 ? index + 1 : null;
-  const total = allPlayers.length;
-  return { rank, total };
-}
-
-//Reset listener
-export function resetLeaderboardListener() {
-  if (unsubscribe) {
-    unsubscribe();
-    unsubscribe = null;
-  }
-  leaderboardInitiated = false;
-}
-
-//Format waktu
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;

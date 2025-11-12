@@ -2,7 +2,8 @@ import {
   saveScore,
   loadLeaderboardRealtime,
   resetLeaderboardListener,
-  getPlayerRank
+  watchPlayerRank,
+  releasePlayerName, reservePlayerName
 } from "./leaderboard.js";
 
 // ===== AUDIO =====
@@ -113,10 +114,16 @@ const playerNameInput = document.getElementById("player-name");
 
 startBtn.addEventListener("click", startGame);
 
-function startGame() {
+async function startGame() {
   playerName = playerNameInput.value.trim();
   if (!playerName) {
     alert("Isi nama dulu Boloo 😁");
+    return;
+  }
+
+  const reserved = await reservePlayerName(playerName);
+  if (!reserved) {
+    alert(`Nama "${playerName}" sudah digunakan player lain! Ganti nama dulu Boloo.. 😅 `);
     return;
   }
 
@@ -330,6 +337,8 @@ async function showSummary() {
   if (playerName && !scoreSaved) {
     await saveScore(playerName, timeUsed, correct);
     scoreSaved = true;
+
+    await releasePlayerName(playerName);
   }
 
   // panggil leaderboard realtime
@@ -337,13 +346,14 @@ async function showSummary() {
     loadLeaderboardRealtime(updatePodium);
   }, 800);
 
-  const { rank, total } = await getPlayerRank(playerName);
+  watchPlayerRank(playerName, ({ rank, total }) => {
+    const rankEl = document.getElementById("player-rank-result");
+    rankEl.style.display = "block";
+    rankEl.textContent = rank
+      ? `🏅 Kamu peringkat ke-${rank} dari ${total} pemain`
+      : "❓ Belum terdaftar di leaderboard";
+  });
 
-  const rankEl = document.getElementById("player-rank-result");
-  rankEl.style.display = "block";
-  rankEl.textContent = rank
-    ? `🏅 Kamu peringkat ke-${rank} dari ${total} pemain`
-    : "❓ Belum terdaftar di leaderboard";
   const restartBtn = document.getElementById("summary-restart");
   overlay.querySelector(".summary-content").insertBefore(rankBox, restartBtn);
 }
@@ -444,4 +454,8 @@ function triggerVictoryConfetti() {
   });
 }
 
-
+window.addEventListener("beforeunload", async () => {
+  if (playerName) {
+    await releasePlayerName(playerName);
+  }
+});
