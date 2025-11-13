@@ -551,8 +551,8 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   content: "";
   position: absolute;
   inset: 0;
-  background: url("image/malang-bg.png") no-repeat center bottom;
-  background-size: 100% auto; /* 🧩 lebar penuh, tinggi menyesuaikan */
+  background: url("image/bg-malang.png") no-repeat center bottom;
+  background-size: 100% auto;
   background-color: #000;
   z-index: -1;
   opacity: 1;
@@ -561,7 +561,8 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 
 @media (max-width: 768px) {
   #start-overlay::before {
-    background-size: cover;  /* biar HP tinggi tetap penuh */
+    background: url("image/bg-malang-portrait.png") no-repeat center bottom;
+    background-size: cover;
     background-position: center bottom;
   }
 }
