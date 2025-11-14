@@ -413,7 +413,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   font-family: quantico, sans-serif;
 }
 
-/* tombol main lagi */
+/*tombol main lagi*/
 .summary-content button.restart-btn {
   background: none;
   border: none;
@@ -425,7 +425,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   transform: scale(1.05);
 }
 
-/* === Teks & ikon === */
+/*===Teks & ikon=== */
 .summary-content p {
   font-size: 0.6rem;
   margin: 0px 0;
@@ -504,13 +504,13 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   filter: drop-shadow(0 0 10px rgba(255,255,255,0.7));
 }
 
-/* === Animation === */
+/*===Animation===*/
 @keyframes popIn {
   from { transform: scale(0.8); opacity: 0; }
   to { transform: scale(1); opacity: 1; }
 }
 
-/* === ICON RINGKASAN (BENAR, LEWAT, WAKTU) === */
+/*===ICON RINGKASAN (BENAR, LEWAT, WAKTU)===*/
 .summary-icon {
   width: 22px;
   height: 22px;
@@ -530,14 +530,14 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0,0,0,0.4); /* lebih transparan aja */
+  background: rgba(0,0,0,0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   z-index: 9999;
   transition: opacity 0.6s ease, visibility 0.6s ease;
-  backdrop-filter: blur(2px); /* efek lembut biar elegan */
+  backdrop-filter: blur(2px);
 }
 
 
@@ -562,6 +562,14 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
 @media (max-width: 768px) {
   #start-overlay::before {
     background: url("image/bg-malang-portrait.png") no-repeat center bottom;
+    background-size: cover;
+    background-position: center bottom;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  #start-overlay::before {
+    background: url("image/bg-malang-portrait-tab.png") no-repeat center bottom;
     background-size: cover;
     background-position: center bottom;
   }
@@ -597,7 +605,7 @@ button.pause:hover { box-shadow: 0 6px #7a1c15; }
   justify-content: center;
   text-align: center;
   background: rgba(0, 0, 0, 0.35); 
-  backdrop-filter: blur(2px); /* biar elegan dan lembut */
+  backdrop-filter: blur(2px); 
   gap: 1.8rem;
   animation: fadeInUp 1s ease;
   z-index: 9999;
@@ -844,7 +852,6 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
 .leaderboard li.bronze {
   color: #cd7f32;
   font-weight: bold;
-  
 }
 
 .medal .shine {
@@ -958,7 +965,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   padding: 4px 0;
 }
 
-/* === PODIUM FIXED STYLING (CLEAN & CENTERED) === */
+/*===PODIUM FIXED STYLING (CLEAN & CENTERED)===*/
 .podium-container {
   width: 100%;
   max-width: 180px;
@@ -1253,7 +1260,7 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 
   .summary-content {
-    margin-top: 31.5vh !important;
+    margin-top: 35vh !important;
     margin-bottom: 5vh !important;
     padding-top: 20px !important;
     width: 86%;
@@ -1334,10 +1341,24 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
   .restart-btn {
     top: 500px;
-    left: 185px;
+    left: 200px;
     bottom: -100px !important;
     transform: translateX(-50%) scale(0.9) !important;
   }
+
+  .start-img {
+    width: 110px !important;
+    margin-top: 100px !important;
+    margin-bottom: -350px !important;
+    animation: vibeTablet 4s linear infinite, 
+               softGlow 2.5s ease-in-out infinite !important;
+    }
+
+    @keyframes vibeTablet {
+    0%   { transform: translateX(700%); }
+    100% { transform: translateX(-700%); }
+  }
+
 
   .btn-home {
     top: 0px !important;
@@ -1359,64 +1380,107 @@ filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
   }
 
   .summary-content {
-    margin-top: 20vh !important;
+    margin-top: 27vh !important;
     margin-bottom: 5vh !important;
     padding-top: 25px !important;
     width: 90%;
+    gap: 10px;
     height: auto !important;
     overflow: visible !important;
   }
 
   .podium-container {
-    max-width: 300px;
+    max-width: 500px;
     margin-bottom: 15px !important;
     transform: translateY(-4px) !important;
   }
 
-  .podium-image { max-width: 300px !important; }
-  .podium-character { width: 70px !important; }
+  .podium-image { max-width: 350px !important; }
+  .podium-character { width: 120px !important; }
 
-  .podium-name { font-size: 0.9rem !important; transform: translateX(-50%) translateY(10px) !important; }
+  .podium-1 { margin-bottom: 89px !important; left: 2px; }
+  .podium-2 { margin-bottom: 69px !important; left: 70px;}
+  .podium-3 { margin-bottom: 49px !important; left: -65px}
+
+  .podium-name { font-size: 1rem !important; transform: translateX(-50%) translateY(10px) !important; }
 
   .summary-content h2 { font-size: 1.2rem !important; margin-top: 6px !important; }
-  .summary-content h3 { font-size: 0.85rem !important; margin-top: -5px !important; margin-bottom: 8px !important; }
-  .summary-content p { font-size: 0.75rem !important; margin: 2px 0 !important; }
+  .summary-content h3 { font-size: 1.5rem !important; margin-top: -5px !important; margin-bottom: 8px !important; }
+  .summary-content p { font-size: 1.2rem !important; margin: 2px 0 !important; }
 
   .leaderboard {
-    width: 70% !important;
+    width: 60% !important;
     max-height: 150px !important;
     padding: 2px 5px;
     border-radius: 6px;
   }
 
-  .leaderboard li { font-size: 0.75rem !important; padding: 3px 6px !important; margin-top: 6px; margin-bottom: 6px; border-radius: 12px !important; }
+  .leaderboard li {max-height: 10px; font-size: 1rem !important; padding: 10px 10px !important; margin-top: 6px; margin-bottom: 6px; border-radius: 12px !important; }
+  
+  .leaderboard li img,
+  .medal-icon,
+  .top3-entry img {
+    width: 25px !important;
+    height: 25px !important;
+  }
+  
+  .summary-stats { font-size: 1.1rem; gap: 20px;}
 
-  .player-rank-box { font-size: 0.85rem !important; padding: 2px 5px !important; border-radius: 6px !important; }
-
-  .stat-icon, .summary-icon { width: 16px !important; height: 16px !important; margin-right: 4px !important; }
-
-  .restart-btn { top: 600px; left: 300px; transform: translateX(-50%) scale(1) !important; }
+  .player-rank-box { font-size: 0.7rem !important; padding: 20px 22px !important; border-radius: 6px !important; }
+  .stat-icon, .summary-icon { width: 25px !important; height: 25px !important; margin-right: 4px !important; }
+  .restart-btn { top: 1020px; left: 400px; transform: translateX(-50%) scale(1) !important; }
   .btn-home { top: 5px !important; left: 5px !important; padding: 6px 10px !important; font-size: 0.8rem !important; transform: scale(1) !important; }
+}     
+
+@media (min-width: 600px) and (max-width: 1024px) {
+  .start-img {
+    width: 110px !important;
+    margin-top: 500px !important;
+    margin-bottom: -320px !important;
+    animation: vibeTablet 4s linear infinite, 
+               softGlow 2.5s ease-in-out infinite !important;
+  }
+
+  @keyframes vibeTablet {
+    0%   { transform: translateX(500%); }
+    100% { transform: translateX(-500%); }
+  }
 }
 
 /* Tablet landscape / small desktop */
 @media (min-width: 901px) and (max-width: 1200px) {
   .summary-wrapper { width: 70vw; max-width: 800px; margin-top: 5vh; }
-  .summary-content { width: 80%; margin-top: 15vh; padding-top: 30px; }
-  .podium-container { max-width: 350px; }
-  .podium-image { max-width: 350px; }
+  .summary-content { width: 45%; margin-top: 25vh; padding-top: 30px; }
+  .podium-container { max-width: 230px; }
+  .podium-image { max-width: 200px; }
   .podium-character { width: 80px; }
+  .podium-1 { margin-bottom: 60px !important; left: 2px; }
+  .podium-2 { margin-bottom: 45px !important; left: 10px;}
+  .podium-3 { margin-bottom: 33px !important; left: -12px}
+  .podium-name { font-size: 0.8rem;}
   .summary-content h2 { font-size: 1.5rem; }
   .summary-content h3 { font-size: 1rem; }
   .summary-content p { font-size: 0.85rem; }
+  .summary-stats { font-size: 0.65rem; gap: 25px;}
   .leaderboard { width: 60%; max-height: 200px; }
-  .leaderboard li { font-size: 0.85rem; padding: 4px 8px; }
+  .leaderboard li { font-size: 0.75rem; padding: 4px 8px; }
   .player-rank-box { font-size: 1rem; }
   .stat-icon, .summary-icon { width: 20px; height: 20px; }
-  .restart-btn { top: 650px; left: 400px; transform: translateX(-50%) scale(1.1); }
+  .restart-btn { top: 700px; left: 585px; transform: translateX(-50%) scale(1.1); }
   .btn-home { font-size: 0.9rem; }
-}
+  .start-img {
+    width: 110px !important;
+    margin-top: 100px !important;
+    margin-bottom: -350px !important;
+    animation: vibeTablet 4s linear infinite, 
+               softGlow 2.5s ease-in-out infinite !important;
+    }
 
+    @keyframes vibeTablet {
+    0%   { transform: translateX(700%); }
+    100% { transform: translateX(-700%); }
+  }
+}
 
 @media (min-width: 1024px) {
   /* Default styles apply — no override needed */
